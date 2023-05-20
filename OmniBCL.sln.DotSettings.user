@@ -1,2 +1,15 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_005CUnity_005CHub_005CEditor_005C2022_002E2_002E16f1_005CEditor_005CData_005CManaged_005CUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002EOdinInspector_002EAttributes_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002EOdinInspector_002EEditor_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002ESerialization_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002ECoreModule_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnity_002EAddressables_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnity_002EResourceManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cunity_002Dprojects_005Comni_002Dproject_005CLibrary_005CScriptAssemblies_005CUniTask_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cunity_002Dprojects_005Comni_002Dproject_005CLibrary_005CScriptAssemblies_005CUniTask_002ELinq_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cunity_002Dprojects_005Comni_002Dproject_005CLibrary_005CScriptAssemblies_005CUnity_002EAddressables_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cunity_002Dprojects_005Comni_002Dproject_005CLibrary_005CScriptAssemblies_005CUnity_002EResourceManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_005CUnity_005CHub_005CEditor_005C2022_002E2_002E16f1_005CEditor_005CData_005CManaged_005CUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Development\unity-projects\omni-project\Library\ScriptAssemblies\UniTask.Linq.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
