@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BCL.Scheduling;
+using BCL;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public class SchedulerComponent : Singleton<SchedulerComponent, ISchedule>, ISchedule {
 		public void Clear(Schedule schedule) => _schedules[schedule].Clear();
 
@@ -37,18 +37,18 @@ namespace UnityBCL.Core {
 				action.Invoke();
 		}
 
-		void Update() => Tick(BCL.Scheduling.Schedule.Normal);
+		void Update() => Tick(BCL.Schedule.Normal);
 
-		void LateUpdate() => Tick(BCL.Scheduling.Schedule.Late);
+		void LateUpdate() => Tick(BCL.Schedule.Late);
 
-		void FixedUpdate() => Tick(BCL.Scheduling.Schedule.Fixed);
+		void FixedUpdate() => Tick(BCL.Schedule.Fixed);
 
 		void Awake() => name += " Global";
 
 		readonly ScheduleCollection _schedules = new() {
-			{ BCL.Scheduling.Schedule.Normal, new HashSet<Action>() },
-			{ BCL.Scheduling.Schedule.Fixed, new HashSet<Action>() },
-			{ BCL.Scheduling.Schedule.Late, new HashSet<Action>() }
+			{ BCL.Schedule.Normal, new HashSet<Action>() },
+			{ BCL.Schedule.Fixed, new HashSet<Action>() },
+			{ BCL.Schedule.Late, new HashSet<Action>() }
 		};
 	}
 }

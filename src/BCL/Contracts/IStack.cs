@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL.Contracts {
+namespace BCL {
 	public interface IStack {
 		void TieInToStack(Action action);
 	}

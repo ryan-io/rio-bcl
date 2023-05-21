@@ -1,6 +1,6 @@
 ﻿// OmniBCL
 
-namespace BCL.Logging {
+namespace BCL {
 	public interface ILogging {
 		object   Context         { get; set; }
 		bool     IsEnabled       { get; }

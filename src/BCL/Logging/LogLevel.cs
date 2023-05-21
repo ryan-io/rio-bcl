@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BCL.Logging {
+namespace BCL {
 	[Serializable]
 	public enum LogLevel {
 		Normal,

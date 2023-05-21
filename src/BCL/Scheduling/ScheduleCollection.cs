@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BCL.Scheduling {
+namespace BCL {
 	[Serializable]
 	public class ScheduleCollection : Dictionary<Schedule, HashSet<Action>> {
 	}

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
-using BCL.Logging;
+using BCL;
 using Cysharp.Threading.Tasks;
-using UnityBCL.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace UnityBCL.Addressables {
+namespace UnityBCL {
 	public class AddressableInstantiator {
 		public readonly struct JobNoParent {
 			public JobNoParent(Vector3 position, Quaternion rotation, Action<AsyncOperationHandle<GameObject>> callback) {

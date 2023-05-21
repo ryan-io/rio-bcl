@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using BCL.ExtensionMethods;
+using BCL;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace UnityBCL.ExtensionMethods {
+namespace UnityBCL {
 	public static class CoreExtensions {
 #region OBJECT
 

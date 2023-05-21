@@ -1,7 +1,7 @@
 ﻿using System;
-using BCL.Scheduling;
+using BCL;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 
 
 	/// <summary>

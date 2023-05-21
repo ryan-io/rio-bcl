@@ -1,4 +1,4 @@
-﻿namespace BCL.ExtensionMethods {
+﻿namespace BCL {
 	public static class StringExtensionMethods {
 		public static string Bold(this string str) => "<b>" + str + "</b>";
 

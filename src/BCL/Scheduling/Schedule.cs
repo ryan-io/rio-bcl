@@ -1,4 +1,4 @@
-﻿namespace BCL.Scheduling {
+﻿namespace BCL {
 	public enum Schedule {
 		Normal,
 		Late,

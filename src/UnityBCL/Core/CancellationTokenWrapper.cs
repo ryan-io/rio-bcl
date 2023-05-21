@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using BCL.Logging;
+using BCL;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public class CancellationTokenWrapper : IDisposable {
 		/// <summary>
 		/// This token will be lazily instantiated when a call to GetTokenWithOnDestroy or GetTokenOnDestroyOnly

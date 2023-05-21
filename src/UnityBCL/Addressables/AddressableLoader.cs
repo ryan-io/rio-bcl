@@ -1,11 +1,10 @@
 ﻿using System;
-using BCL.Logging;
-using UnityBCL.Core;
+using BCL;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace UnityBCL.Addressables {
+namespace UnityBCL {
 	public class AddressableLoader {
 		public AsyncOperationHandle<T> LoadReference<T>(AssetReference reference,
 			Action<AsyncOperationHandle<T>> callback = null) {

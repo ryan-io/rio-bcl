@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace BCL.ExtensionMethods {
+namespace BCL {
 	public static class CollectionExtensionMethods {
 		public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, TValue> dict) where TKey : notnull {
 			return !dict.GetEnumerator().MoveNext();

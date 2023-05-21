@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
-using BCL.Logging;
+using BCL;
 using Cysharp.Threading.Tasks;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public abstract class AsyncUnitOfWork<TArgs> : IDisposable {
 		protected CancellationTokenWrapper Cancellation { get; }
 		

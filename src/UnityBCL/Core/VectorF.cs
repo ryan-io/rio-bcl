@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using r = UnityEngine.Random;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public static class VectorF {
 		const float Tolerance = 0.005f;
 

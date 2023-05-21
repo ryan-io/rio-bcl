@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL.Scheduling {
+namespace BCL {
 	
 
 /// <summary>

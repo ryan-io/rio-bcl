@@ -1,6 +1,6 @@
 // OmniBCL
 
-namespace BCL.ExtensionMethods {
+namespace BCL {
 	
 
 public static class GenericExtensions {

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using BCL.ExtensionMethods;
-using BCL.Logging;
-using UnityBCL.ExtensionMethods;
+using BCL;
 using UnityEngine;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public class UnityLogging : ILogging {
 		public static void ClearConsole() {
 #if UNITY_EDITOR

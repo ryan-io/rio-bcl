@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	public abstract class SingletonMonobehavior<TComponent> : MonoBehaviour where TComponent : MonoBehaviour {
 		public static TComponent? Global {
 			get {

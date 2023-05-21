@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace UnityBCL.Core {
+namespace UnityBCL {
 	[Serializable]
 	[DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout, KeyLabel = "")]
 	public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver
