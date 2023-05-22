@@ -2,7 +2,14 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002EOdinInspector_002EAttributes_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002EOdinInspector_002EEditor_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CSirenix_002ESerialization_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUniTask_002EAddressables_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUniTask_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUniTask_002ELinq_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002EAssetBundleModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002ECoreModule_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002EPhysicsModule_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnityEngine_002EUnityWebRequestModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnity_002EAddressables_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cdynamic_002Dlinked_002Dlibraries_005CUnity_002EResourceManager_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CDevelopment_005Cunity_002Dprojects_005Comni_002Dproject_005CLibrary_005CScriptAssemblies_005CUniTask_002Edll/@EntryIndexedValue">True</s:Boolean>

@@ -62,7 +62,7 @@ namespace UnityBCL {
 			}
 			catch (Exception) {
 				_logging.Log(LogLevel.Warning,"Could not instantiate game object. The handle was invalid.");
-				return default;
+				return default!;
 			}
 		}
 

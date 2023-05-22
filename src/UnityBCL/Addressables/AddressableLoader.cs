@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace UnityBCL {
 	public class AddressableLoader {
 		public AsyncOperationHandle<T> LoadReference<T>(AssetReference reference,
-			Action<AsyncOperationHandle<T>> callback = null) {
+			Action<AsyncOperationHandle<T>> callback = null!) {
 			if (reference.IsValid()) {
 				return default;
 			}
