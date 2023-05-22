@@ -5,7 +5,7 @@ using System.Reflection;
 using Sirenix.OdinInspector;
 
 namespace UnityBCL {
-	public struct DropDownListGenerator {
+	public static class DropDownListGenerator {
 		const BindingFlags BindingFlagsConstStrings = BindingFlags.Public |
 		                                              BindingFlags.Static |
 		                                              BindingFlags.FlattenHierarchy;

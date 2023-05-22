@@ -39,14 +39,6 @@ namespace UnityBCL {
 				var token = _cancellation.GetTokenWithOnDestroy(consumer);
 				await StartListeningOnTriggerEnter(token);
 			}
-			
-			// if (_authorizer.IsAuthorized(TriggerEvent.OnExit, triggerEvent)) {
-			// 	await StartListeningOnTriggerExit(cancellationToken);
-			// }
-			//
-			// if (_authorizer.IsAuthorized(TriggerEvent.OnStay, triggerEvent)) {
-			// 	await StartListeningOnTriggerStay(cancellationToken);
-			// }
 		}
 
 		public void StopProcessAsync() {
