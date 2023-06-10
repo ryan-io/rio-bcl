@@ -5,24 +5,6 @@ namespace UnityBCL {
 	public static class VectorF {
 		const float Tolerance = 0.005f;
 
-		public readonly struct Limits {
-			public float XMin { get; }
-			public float YMin { get; }
-			public float ZMin { get; }
-			public float XMax { get; }
-			public float YMax { get; }
-			public float ZMax { get; }
-
-			public Limits(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax) {
-				XMin = xMin;
-				XMax = xMax;
-				YMin = yMin;
-				YMax = yMax;
-				ZMin = zMin;
-				ZMax = zMax;
-			}
-		}
-
 		public static Vector3 AddRandom(this Vector3 v, Limits limits) => v + GetRandomVector(limits);
 
 		public static Vector3 GetRandomVector(Limits limits) {
@@ -34,7 +16,7 @@ namespace UnityBCL {
 		}
 
 		public static Quaternion NewQuatFromV3(Vector3 vector, float representationScalar = 1f)
-			=> new Quaternion(vector.x, vector.y, vector.z, representationScalar);
+			=> new(vector.x, vector.y, vector.z, representationScalar);
 
 		public static Vector2[] Vector3ArrayToVector2Array(Vector3[] array) {
 			var count        = array.Length;
@@ -77,17 +59,32 @@ namespace UnityBCL {
 		public static bool AbsoluteDifferenceEqualsToWithError(float from, float to, float comparisonValue, float error)
 			=> Mathf.Abs(from - to) <= error;
 
-		public static float DotProduct(Vector3 fromHeading, Vector3 toHeading) {
-			return Vector3.Dot(fromHeading.normalized, toHeading.normalized);
-		}
+		public static float DotProduct(Vector3 fromHeading, Vector3 toHeading)
+			=> Vector3.Dot(fromHeading.normalized, toHeading.normalized);
 
 		public static bool IsInFov(Vector3 from, Vector3 to, float fovAngle) {
 			var dot = DotProduct(from, to);
 			return dot >= Mathf.Cos(fovAngle);
 		}
 
-		public static Vector3 WorldPosition(Vector3 localPosition) {
-			return default;
+		public static Vector3 WorldPosition(Vector3 localPosition) => default;
+
+		public readonly struct Limits {
+			public float XMin { get; }
+			public float YMin { get; }
+			public float ZMin { get; }
+			public float XMax { get; }
+			public float YMax { get; }
+			public float ZMax { get; }
+
+			public Limits(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax) {
+				XMin = xMin;
+				XMax = xMax;
+				YMin = yMin;
+				YMax = yMax;
+				ZMin = zMin;
+				ZMax = zMax;
+			}
 		}
 	}
 }

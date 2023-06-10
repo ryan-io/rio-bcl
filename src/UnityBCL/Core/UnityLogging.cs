@@ -1,17 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using BCL;
+using UnityEditor;
 using UnityEngine;
 
 namespace UnityBCL {
-	public class UnityLogging : ILogging {
-		public static void ClearConsole() {
-#if UNITY_EDITOR
-			var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
-			var type = assembly.GetType("UnityEditor.LogEntries");
-			var method = type.GetMethod("Clear");
-			method?.Invoke(new object(), null);
-#endif
+	public class UnityLogging : ILogging, ILoggingProvider {
+		const string InvalidLogLevelMsg = "An appropriate log level was not defined or was incorreclty passed";
+
+		static readonly object UninitializedContext = new();
+
+		public UnityLogging(LogLevel defaultLogLevel = LogLevel.Normal, bool isEnabled = true) {
+			Context         = UninitializedContext;
+			DefaultLogLevel = defaultLogLevel;
+			IsEnabled       = isEnabled;
+		}
+
+		public UnityLogging(object context, LogLevel defaultLogLevel = LogLevel.Normal, bool isEnabled = true) {
+			Context         = context;
+			DefaultLogLevel = defaultLogLevel;
+			IsEnabled       = isEnabled;
 		}
 
 		public object   Context         { get; set; }
@@ -21,9 +30,7 @@ namespace UnityBCL {
 		public void Log(string message) => Log(DefaultLogLevel, message);
 
 		public void Log(LogLevel logLevel, string message) {
-			if (!IsEnabled) {
-				return;
-			}
+			if (!IsEnabled) return;
 
 			switch (logLevel) {
 				case LogLevel.Normal:
@@ -46,49 +53,58 @@ namespace UnityBCL {
 			}
 		}
 
-		static void Msg(string message, string ctx = "", bool bold = false, bool italic = false, int size = 15) {
-#if UNITY_EDITOR
-			Output(Sanitize(message, bold, italic, size), Type.Normal, ctx);
+		public void Msg(string message, string ctx = "", bool bold = false, bool italic = false, int size = 15) {
+#if UNITY_EDITOR|| UNITY_STANDALONE
+			Output(Sanitize(message, bold, italic, size), LogLevel.Normal, ctx);
 #endif
 		}
 
-		static void Warning(string message, string ctx = "", bool bold = false, bool italic = false, int size = 16) {
-#if UNITY_EDITOR
-			Output(Sanitize(message, bold, italic, size), Type.Warning, ctx);
+		public void Warning(string message, string ctx = "", bool bold = false, bool italic = false, int size = 16) {
+#if UNITY_EDITOR|| UNITY_STANDALONE
+			Output(Sanitize(message, bold, italic, size), LogLevel.Warning, ctx);
 #endif
 		}
 
-		static void Error(string message, string ctx = "", bool bold = false, bool italic = false, int size = 16) {
-#if UNITY_EDITOR
-			Output(Sanitize(message, bold, italic, size), Type.Error, ctx);
+		public void Error(string message, string ctx = "", bool bold = false, bool italic = false, int size = 16) {
+#if UNITY_EDITOR|| UNITY_STANDALONE
+			Output(Sanitize(message, bold, italic, size), LogLevel.Error, ctx);
 #endif
 		}
 
-		static void Test(string message, string ctx = "", bool bold = true, bool italic = true, int size = 18) {
-#if UNITY_EDITOR
-			Output(Sanitize(message, bold, italic, size), Type.Test, ctx);
+		public void Test(string message, string ctx = "", bool bold = true, bool italic = true, int size = 18) {
+#if UNITY_EDITOR || UNITY_STANDALONE
+			Output(Sanitize(message, bold, italic, size), LogLevel.Test, ctx);
 #endif
 		}
 
-		static string Sanitize(string value, bool bold, bool italic, int size) {
-#if UNITY_EDITOR
+		public void ClearConsole() {
+#if UNITY_EDITOR || UNITY_STANDALONE
+			var assembly = Assembly.GetAssembly(typeof(Editor));
+			var type     = assembly.GetType("UnityEditor.LogEntries");
+			var method   = type.GetMethod("Clear");
+			method.Invoke(new object(), null);
+#endif
+		}
+
+		public string Sanitize(string value, bool bold, bool italic, int size) {
+#if UNITY_EDITOR|| UNITY_STANDALONE
 			if (string.IsNullOrWhiteSpace(value)) {
-				Output(InvalidString, Type.Error);
-
-				return default;
+				Output(InvalidLogLevelMsg, LogLevel.Error);
+				return string.Empty;
 			}
 
 			var outPutString = SanitizeMultiLine(value, bold, italic, size);
 
 			return outPutString;
+#else
+			return string.Empty;
 #endif
-			return "";
 		}
 
 		static string SanitizeMultiLine(string value, bool bold, bool italic, int size) {
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| UNITY_STANDALONE
 			var outPutString = string.Empty;
-			var stringSplit = value.Split(Break().ToCharArray());
+			var stringSplit  = value.Split(Break().ToCharArray());
 
 			var count = stringSplit.Length;
 
@@ -96,8 +112,9 @@ namespace UnityBCL {
 				outPutString = ProcessMember(bold, italic, size, stringSplit, i, outPutString, count);
 
 			return outPutString;
+#else
+			return string.Empty;
 #endif
-			return "";
 		}
 
 		static string ProcessMember(bool bold, bool italic, int size, IReadOnlyList<string> stringSplit, int i,
@@ -121,7 +138,7 @@ namespace UnityBCL {
 		}
 
 		void Output(string value, LogLevel logLevel, string ctx = "") {
-			var ctxOutput = $" (Ctx: ".Color(Color.magenta) + $"{ctx}) ".Color(Color.cyan);
+			var ctxOutput = " (Ctx: ".Color(Color.magenta) + $"{ctx}) ".Color(Color.cyan);
 
 			switch (logLevel) {
 				case LogLevel.Normal:
@@ -193,13 +210,5 @@ namespace UnityBCL {
 		static string Header(string value) => value;
 
 		static string Footer(string value) => Break() + value;
-
-		public UnityLogging(object context, LogLevel defaultLogLevel = LogLevel.Normal, bool isEnabled = true) {
-			Context         = context;
-			DefaultLogLevel = defaultLogLevel;
-			IsEnabled       = isEnabled;
-		}
-
-		const string InvalidLogLevelMsg = "An appropriate log level was not defined or was incorreclty passed";
 	}
 }

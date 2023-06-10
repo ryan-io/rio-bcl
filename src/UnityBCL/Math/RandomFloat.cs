@@ -1,4 +1,4 @@
-﻿using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace UnityBCL {
 	public interface IRandomFloatBuilder {
@@ -15,35 +15,6 @@ namespace UnityBCL {
 	}
 
 	public class RandomizeFloatBuilder : IRandomFloatBuilder, IStartRandomFloat, IRandomFloat {
-		public static IRandomFloatBuilder InitWithLimits(float min, float max) {
-			return new RandomizeFloatBuilder(min, max);
-		}
-
-		public static IRandomFloatBuilder InitWithoutLimits() {
-			return new RandomizeFloatBuilder();
-		}
-
-		float Min { get; set; }
-		float Max { get; set; }
-
-		public IStartRandomFloat Build() {
-			return this;
-		}
-
-		public IRandomFloat WithCurrentRange() {
-			return this;
-		}
-
-		public IRandomFloat WithNewRange(float min, float max) {
-			Min = min;
-			Max = max;
-			return this;
-		}
-
-		public float Get() {
-			return Random.Range(Min, Max);
-		}
-
 		RandomizeFloatBuilder(float min, float max) {
 			Min = min;
 			Max = max;
@@ -53,5 +24,24 @@ namespace UnityBCL {
 			Max = 0;
 			Max = 0;
 		}
+
+		float Min { get; set; }
+		float Max { get; set; }
+
+		public float Get() => Random.Range(Min, Max);
+
+		public IStartRandomFloat Build() => this;
+
+		public IRandomFloat WithCurrentRange() => this;
+
+		public IRandomFloat WithNewRange(float min, float max) {
+			Min = min;
+			Max = max;
+			return this;
+		}
+
+		public static IRandomFloatBuilder InitWithLimits(float min, float max) => new RandomizeFloatBuilder(min, max);
+
+		public static IRandomFloatBuilder InitWithoutLimits() => new RandomizeFloatBuilder();
 	}
 }

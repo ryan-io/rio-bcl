@@ -7,15 +7,13 @@ namespace UnityBCL {
 	[CreateAssetMenu(menuName = "Pooling/Setup New Pooled Object", fileName = "PooledObject", order = 0)]
 	[Serializable]
 	public class PooledObjectSetup : ScriptableObject {
+		public PooledObjectSetup(AssetReference reference) => Asset = reference;
+
 		[Title("Configuration")]
-		[field: SerializeField, LabelText("Pooling Asset")]
+		[field: SerializeField]
+		[field: LabelText("Pooling Asset")]
 		public AssetReference Asset { get; set; }
 
-		[ShowInInspector, ReadOnly]
-		public string PoolIdentifier => Asset.AssetGUID;
-
-		public PooledObjectSetup(AssetReference reference) {
-			Asset = reference;
-		}
+		[ShowInInspector] [ReadOnly] public string PoolIdentifier => Asset.AssetGUID;
 	}
 }

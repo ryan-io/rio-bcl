@@ -6,13 +6,18 @@ using UnityEngine;
 
 namespace UnityBCL {
 	public class PoolQueue : IEnumerable<Queue<GameObject>> {
-		public int QueueCount => _poolingDictionary.Count;
+		readonly PoolingDictionary _poolingDictionary = new();
+		public   int               QueueCount => _poolingDictionary.Count;
 
-		public static bool CannotPool(PooledObjectSetup pooledObject, int quantity) {
-			return quantity              < 1
-			       || pooledObject.Asset == null
-			       || !pooledObject.Asset.RuntimeKeyIsValid();
+		public IEnumerator<Queue<GameObject>> GetEnumerator() {
+			foreach (var queue in _poolingDictionary.Values) yield return queue;
 		}
+
+		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+		public static bool CannotPool(PooledObjectSetup pooledObject, int quantity) => quantity < 1
+			|| pooledObject.Asset                                                               == null
+			|| !pooledObject.Asset.RuntimeKeyIsValid();
 
 		public void AddToQueueDictionary(PooledObjectSetup pooledObject, Queue<GameObject> queue) {
 			if (!_poolingDictionary.ContainsKey(pooledObject.PoolIdentifier))
@@ -57,12 +62,6 @@ namespace UnityBCL {
 			return queue.Dequeue();
 		}
 
-		public IEnumerator<Queue<GameObject>> GetEnumerator() {
-			foreach (var queue in _poolingDictionary.Values) {
-				yield return queue;
-			}
-		}
-
 		[Obsolete]
 		bool GetObjectFromQueue(string poolId, GameObject obj, out Queue<GameObject> queue, bool outputLogs = false) {
 			queue = GetQueue(poolId, outputLogs);
@@ -76,9 +75,5 @@ namespace UnityBCL {
 				return true;
 			return false;
 		}
-
-		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-		readonly PoolingDictionary _poolingDictionary = new();
 	}
 }

@@ -10,7 +10,32 @@ using UnityEngine.Serialization;
 
 namespace UnityBCL {
 	public class ObjectPooling : Singleton<ObjectPooling, IObjectPooling>, IObjectPooling {
-		[ShowInInspector] int QueueCount => _poolQueue.QueueCount;
+		static readonly Vector3 PoolLocation = new(10000f, 10000f, 0);
+
+		[FormerlySerializedAs("_model")] [SerializeField] [HideLabel]
+		public PoolingMonoModel Model = new();
+
+		CancellationTokenSource _cancellationTokenSource = null!;
+		PoolQueue               _poolQueue               = null!;
+		[ShowInInspector] int   QueueCount => _poolQueue.QueueCount;
+
+		async void Awake() {
+			_poolQueue               = new PoolQueue();
+			_cancellationTokenSource = new CancellationTokenSource();
+
+			foreach (var pooledObject in Model.PooledObjectContainer) {
+				if (pooledObject.Value == null)
+					continue;
+
+				await CreatePool(pooledObject.Value, pooledObject.Key);
+			}
+		}
+
+		void OnDisable() {
+			if (!_cancellationTokenSource.IsCancellationRequested)
+				_cancellationTokenSource?.Cancel();
+			_cancellationTokenSource?.Dispose();
+		}
 
 		public async UniTask CreatePool(PooledObjectSetup pooledObject, int quantity) {
 			if (PoolQueue.CannotPool(pooledObject, quantity)) {
@@ -125,31 +150,5 @@ namespace UnityBCL {
 
 			_poolQueue.Enqueue(jobDespawn.PoolId, jobDespawn.ObjectToReturn);
 		}
-
-		async void Awake() {
-			_poolQueue               = new PoolQueue();
-			_cancellationTokenSource = new CancellationTokenSource();
-
-			foreach (var pooledObject in Model.PooledObjectContainer) {
-				if (pooledObject.Value == null)
-					continue;
-
-				await CreatePool(pooledObject.Value, pooledObject.Key);
-			}
-		}
-
-		void OnDisable() {
-			if (!_cancellationTokenSource.IsCancellationRequested)
-				_cancellationTokenSource?.Cancel();
-			_cancellationTokenSource?.Dispose();
-		}
-
-		CancellationTokenSource _cancellationTokenSource = null!;
-		PoolQueue               _poolQueue               = null!;
-
-		static readonly Vector3 PoolLocation = new(10000f, 10000f, 0);
-
-		[FormerlySerializedAs("_model")] [SerializeField, HideLabel]
-		public PoolingMonoModel Model = new();
 	}
 }

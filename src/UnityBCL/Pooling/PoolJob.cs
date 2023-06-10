@@ -11,7 +11,7 @@ namespace UnityBCL {
 				ActiveState = activeState;
 			}
 		}
-		
+
 		public readonly struct SpawnObjectJobEuler {
 			public string  PoolId      { get; }
 			public Vector3 Position    { get; }
@@ -25,7 +25,7 @@ namespace UnityBCL {
 				ActiveState = activeState;
 			}
 		}
-		
+
 		public readonly struct SpawnObjectJobQuat {
 			public string     PoolId      { get; }
 			public Vector3    Position    { get; }
@@ -59,11 +59,12 @@ namespace UnityBCL {
 			public Quaternion Rotation    { get; }
 			public bool       ActiveState { get; }
 
-			public SpawnObjectJobComplex(string poolId, Transform parent, Vector3 position, Quaternion rotation, bool activeState) {
-				PoolId           = poolId;
-				Parent           = parent;
-				Position         = position;
-				Rotation         = rotation;
+			public SpawnObjectJobComplex(string poolId, Transform parent, Vector3 position, Quaternion rotation,
+				bool activeState) {
+				PoolId      = poolId;
+				Parent      = parent;
+				Position    = position;
+				Rotation    = rotation;
 				ActiveState = activeState;
 			}
 		}

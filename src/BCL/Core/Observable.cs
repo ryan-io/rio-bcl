@@ -15,61 +15,57 @@ namespace BCL {
 		void Signal(T1 sender, T2 invokingObserver, bool constraintToSingle = false);
 	}
 
-	public interface IObservable {
+	public interface IObservable : ISignal {
 		bool Register(Action observer);
 		bool Unregister(Action observer);
 		void UnregisterAll();
 	}
 
-	public interface IObservable<out T> {
+	public interface IObservable<T> : ISignal<T> {
 		bool Register(Action<T> observer);
 		bool Unregister(Action<T> observer);
 		void UnregisterAll();
 	}
 
-	public interface IObservable<out T1, out T2> {
+	public interface IObservable<T1, T2> : ISignal<T1, T2> {
 		bool Register(Action<T1, T2> observer);
 		bool Unregister(Action<T1, T2> observer);
 		void UnregisterAll();
 	}
 
 	public abstract class BaseObservable {
-		protected bool ShouldLog { get; }
+		protected BaseObservable() => ShouldLog = false;
 
-		protected ILogging? Logging { get; }
-
-		protected BaseObservable() {
-			ShouldLog = false;
-		}
-
-		protected BaseObservable(bool shouldLog) {
-			ShouldLog = shouldLog;
-		}
+		protected BaseObservable(bool shouldLog) => ShouldLog = shouldLog;
 
 		protected BaseObservable(bool shouldLog, ILogging logging) {
 			ShouldLog = shouldLog;
 			Logging   = logging;
 		}
 
+		protected bool ShouldLog { get; }
+
+		protected ILogging? Logging { get; }
+
 		protected void HandleLogging() {
 		}
 	}
 
 	public class Observable : BaseObservable, IEnumerable<Action>, IObservable, ISignal {
+		readonly HashSet<Action> _observers;
+
+		public Observable() => _observers = new HashSet<Action>();
+
 		public bool IsConstrained { get; private set; }
 
-		public void Clear() => _observers.Clear();
+		public IEnumerator GetEnumerator() => _observers.GetEnumerator();
 
-		public IEnumerator GetEnumerator() {
-			return _observers.GetEnumerator();
-			// for (var i = 0; i < observers.Count(); i++)
-			// 	yield return observers[i];
-		}
+		// for (var i = 0; i < observers.Count(); i++)
+		// 	yield return observers[i];
+		IEnumerator<Action> IEnumerable<Action>.GetEnumerator() => (IEnumerator<Action>)GetEnumerator();
 
 		public bool Register(Action observer) {
-			if (_observers.Contains(observer)) {
-				return false;
-			}
+			if (_observers.Contains(observer)) return false;
 
 			try {
 				_observers.Add(observer);
@@ -83,7 +79,7 @@ namespace BCL {
 		}
 
 		public bool Unregister(Action observer) {
-			if (_observers.IsNullOrEmpty() || !_observers.Contains(observer))
+			if (_observers.NotAcceptable() || !_observers.Contains(observer))
 				return false;
 
 			try {
@@ -96,7 +92,7 @@ namespace BCL {
 		}
 
 		public void Signal(bool constraintToSingle = false) {
-			if (_observers.IsNullOrEmpty() || IsConstrained)
+			if (_observers.NotAcceptable() || IsConstrained)
 				return;
 
 			foreach (var observer in _observers)
@@ -107,32 +103,28 @@ namespace BCL {
 
 		public void UnregisterAll() => _observers.Clear();
 
+		public void Clear() => _observers.Clear();
+
 		void LogException(Exception e) => Logging?.Log("Exception thrown.... " + e.Message);
 
 		bool ContainsValue(Action observer) => _observers.Contains(observer);
-
-		IEnumerator<Action> IEnumerable<Action>.GetEnumerator() => (IEnumerator<Action>)GetEnumerator();
-
-		readonly HashSet<Action> _observers;
-
-		public Observable() {
-			_observers = new HashSet<Action>();
-		}
 	}
 
 	public class Observable<T> : BaseObservable, IEnumerable<Action<T>>, IObservable<T>, ISignal<T> {
-		public bool IsConstrained { get; private set; }
+		readonly HashSet<Action<T>> _observers;
 
-		public void Clear() => _observers.Clear();
+		public Observable() => _observers = new HashSet<Action<T>>();
+		public bool IsConstrained { get; private set; }
 
 		public IEnumerator GetEnumerator() => _observers.GetEnumerator();
 
+		IEnumerator<Action<T>> IEnumerable<Action<T>>.GetEnumerator() => (IEnumerator<Action<T>>)GetEnumerator();
+
 		public bool Register(Action<T> observer) {
 			if (_observers.Contains(observer)) {
-				if (_observers.Contains(observer)) {
+				if (_observers.Contains(observer))
 					if (ShouldLog)
 						Logging?.Log(LogLevel.Warning, "Observers list already contains action. It will not be added.");
-				}
 
 				return false;
 			}
@@ -149,7 +141,7 @@ namespace BCL {
 		}
 
 		public bool Unregister(Action<T> observer) {
-			if (_observers.IsNullOrEmpty() || !_observers.Contains(observer))
+			if (_observers.NotAcceptable() || !_observers.Contains(observer))
 				return false;
 
 			try {
@@ -162,7 +154,7 @@ namespace BCL {
 		}
 
 		public void Signal(T data, bool constraintToSingle = false) {
-			if (_observers.IsNullOrEmpty() || IsConstrained)
+			if (_observers.NotAcceptable() || IsConstrained)
 				return;
 
 			foreach (var observer in _observers)
@@ -173,34 +165,26 @@ namespace BCL {
 
 		public void UnregisterAll() => _observers.Clear();
 
+		public void Clear() => _observers.Clear();
+
 		void LogException(Exception e) => Logging?.Log(LogLevel.Error, "Exception thrown.... " + e.Message);
 
 		bool ContainsValue(Action<T> observer) => _observers.Contains(observer);
-
-		IEnumerator<Action<T>> IEnumerable<Action<T>>.GetEnumerator() => (IEnumerator<Action<T>>)GetEnumerator();
-
-		public Observable() => _observers = new HashSet<Action<T>>();
-
-		readonly HashSet<Action<T>> _observers;
 	}
 
 	public class Observable<T1, T2> : BaseObservable, IEnumerable<Action<T1, T2>>, IObservable<T1, T2>,
 	                                  ISignal<T1, T2> {
-		public bool IsConstrained { get; private set; }
-
-		public void Clear() => _observers.Clear();
-
 		readonly HashSet<Action<T1, T2>> _observers;
 
 		public Observable() => _observers = new HashSet<Action<T1, T2>>();
+		public bool IsConstrained { get; private set; }
 
-		public void UnregisterAll() => _observers.Clear();
-
-		IEnumerator<Action<T1, T2>> IEnumerable<Action<T1, T2>>.GetEnumerator() {
-			return (IEnumerator<Action<T1, T2>>)GetEnumerator();
-		}
+		IEnumerator<Action<T1, T2>> IEnumerable<Action<T1, T2>>.GetEnumerator()
+			=> (IEnumerator<Action<T1, T2>>)GetEnumerator();
 
 		public IEnumerator GetEnumerator() => _observers.GetEnumerator();
+
+		public void UnregisterAll() => _observers.Clear();
 
 		public bool Register(Action<T1, T2> observer) {
 			if (_observers.Contains(observer)) return false;
@@ -227,7 +211,7 @@ namespace BCL {
 
 		public void Signal(T1 sender, T2 invokingObserver, bool constraintToSingle = false) {
 			try {
-				if (_observers.IsNullOrEmpty() || IsConstrained)
+				if (_observers.NotAcceptable() || IsConstrained)
 					return;
 
 				foreach (var observer in _observers)
@@ -240,9 +224,9 @@ namespace BCL {
 			}
 		}
 
-		bool ContainsValue(Action<T1, T2> observer) {
-			return _observers.Contains(observer);
-		}
+		public void Clear() => _observers.Clear();
+
+		bool ContainsValue(Action<T1, T2> observer) => _observers.Contains(observer);
 
 		void LogException(Exception e) {
 			Logging?.Log(LogLevel.Error, "Exception thrown.... " + e.Message);

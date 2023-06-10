@@ -2,6 +2,10 @@
 
 namespace UnityBCL {
 	public abstract class SingletonMonobehavior<TComponent> : MonoBehaviour where TComponent : MonoBehaviour {
+		static readonly object      Lock = new();
+		static          TComponent? _instanceComponent;
+		static          bool        _isShuttinDown;
+
 		public static TComponent? Global {
 			get {
 				if (_isShuttinDown)
@@ -46,40 +50,40 @@ namespace UnityBCL {
 		void OnApplicationQuit() {
 			_isShuttinDown = true;
 		}
-
-		static readonly object      Lock = new();
-		static          TComponent? _instanceComponent;
-		static          bool        _isShuttinDown;
 	}
 
-	public abstract class Singleton<TComponent, TInterface> : MonoBehaviour where TComponent : MonoBehaviour
-	                                                                        where TInterface : class {
-		public static TInterface Global {
-			get {
-				if (_isShuttinDown)
-					return default!;
+	public abstract class Singleton<Tmonocomp, Tinterface> : MonoBehaviour
+		where Tmonocomp : MonoBehaviour
+		where Tinterface : class {
+		static          bool       _shuttingDown;
+		static readonly object     _lock              = new();
+		static          Tmonocomp  _instanceComponent = null!;
+		static          Tinterface _instanceInterface = null!;
 
+		public static Tinterface Global {
+			get {
+				if (_shuttingDown) return null!;
 				var instanceComponent = InstanceComponent;
-				return (_instanceInterface ??= instanceComponent != null
-					                               ? instanceComponent.GetComponent<TInterface>()
-					                               : null)!;
+
+				if (_instanceInterface is null) _instanceInterface = instanceComponent.GetComponent<Tinterface>();
+
+				return _instanceInterface;
 			}
 		}
 
-		static TComponent InstanceComponent {
+		static Tmonocomp InstanceComponent {
 			get {
-				if (_isShuttinDown)
-					return null!;
+				if (_shuttingDown) return null!;
 
-				lock (Lock) {
+				lock (_lock) {
 					if (_instanceComponent is null) {
 						// Try to get existing Instance
-						_instanceComponent = (TComponent)FindObjectOfType(typeof(TComponent));
+						_instanceComponent = (Tmonocomp)FindObjectOfType(typeof(Tmonocomp));
 
-						if (_instanceComponent == null) {
+						if (_instanceComponent is null) {
 							var singleton = new GameObject();
-							_instanceComponent = singleton.AddComponent<TComponent>();
-							singleton.name     = typeof(TComponent) + " Singleton";
+							_instanceComponent = singleton.AddComponent<Tmonocomp>();
+							singleton.name     = typeof(Tmonocomp) + " Singleton";
 
 							DontDestroyOnLoad(singleton);
 						}
@@ -91,16 +95,11 @@ namespace UnityBCL {
 		}
 
 		void OnDestroy() {
-			_isShuttinDown = true;
+			_shuttingDown = true;
 		}
 
 		void OnApplicationQuit() {
-			_isShuttinDown = true;
+			_shuttingDown = true;
 		}
-
-		static readonly object      Lock = new();
-		static          TComponent? _instanceComponent;
-		static          TInterface? _instanceInterface;
-		static          bool        _isShuttinDown;
 	}
 }

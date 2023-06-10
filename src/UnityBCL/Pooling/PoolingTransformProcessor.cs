@@ -6,7 +6,7 @@ namespace UnityBCL {
 			objectToSpawn.transform.position = job.Position;
 			objectToSpawn.transform.rotation = job.Rotation;
 		}
-		
+
 		public static void SetPositionAndRotation(PoolJob.SpawnObjectJobEuler job, GameObject objectToSpawn) {
 			objectToSpawn.transform.position = job.Position;
 			objectToSpawn.transform.rotation = Quaternion.Euler(job.Rotation);

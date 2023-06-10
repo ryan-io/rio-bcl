@@ -8,17 +8,44 @@ using UnityEngine;
 
 namespace UnityBCL {
 	/// <summary>
-	/// Creates an asynchronous wrapper for OnTriggerEnter, OnTriggerStay, & OnTriggerExit. Can register/unregister
-	/// outside Actions via ObserveTriggerEnter, ObserveTriggerStay, & ObserveTriggerExit. These Observables are invoked
-	/// relative to their respective name. ObserverTriggerStay.Signal is invoked every frame while an antagonist is
-	/// present.
+	///     Creates an asynchronous wrapper for OnTriggerEnter, OnTriggerStay, & OnTriggerExit. Can register/unregister
+	///     outside Actions via ObserveTriggerEnter, ObserveTriggerStay, & ObserveTriggerExit. These Observables are invoked
+	///     relative to their respective name. ObserverTriggerStay.Signal is invoked every frame while an antagonist is
+	///     present.
 	/// </summary>
 	public class AsyncTriggersOp {
 		[Flags]
 		public enum Event {
-			OnEnter, OnExit, OnStay  
+			OnEnter,
+			OnExit,
+			OnStay
 		}
-		
+
+		readonly Authorizer               _authorizer;
+		readonly AsyncColliderOpCallbacks _callbacks;
+
+		readonly CancellationTokenWrapper _cancellation;
+		readonly AsyncTriggerEnterTrigger _enterTrigger;
+		readonly AsyncTriggerExitTrigger  _exitTrigger;
+		readonly ILogging                 _logging;
+		readonly AsyncTriggerStayTrigger  _stayTrigger;
+
+		public AsyncTriggersOp(GameObject owner) {
+			_authorizer   = new Authorizer(true);
+			_enterTrigger = owner.GetAsyncTriggerEnterTrigger();
+			_exitTrigger  = owner.GetAsyncTriggerExitTrigger();
+			_stayTrigger  = owner.GetAsyncTriggerStayTrigger();
+			_callbacks = new AsyncColliderOpCallbacks {
+				{ TriggerState.Enter, new AsyncOpCallback<Collider>() },
+				{ TriggerState.Exit, new AsyncOpCallback<Collider>() },
+				{ TriggerState.Stay, new AsyncOpCallback<Collider>() }
+			};
+			_logging      = new UnityLogging(this);
+			_cancellation = new CancellationTokenWrapper();
+		}
+
+		public bool IsStay { get; set; }
+
 		public void SetOnEnterContext(Action<Collider, CancellationToken> ctx)
 			=> _callbacks[TriggerState.Enter].Context = ctx;
 
@@ -44,8 +71,6 @@ namespace UnityBCL {
 		public void StopProcessAsync() {
 			_cancellation.Cancel();
 		}
-
-		public bool IsStay { get; set; }
 
 		async UniTask StartListeningOnTriggerEnter(CancellationToken token) {
 			var result = await _enterTrigger.OnTriggerEnterAsync(token);
@@ -78,27 +103,5 @@ namespace UnityBCL {
 					_callbacks[TriggerState.Stay].Alert(c, token);
 			}
 		}
-
-		public AsyncTriggersOp(GameObject owner) {
-			_authorizer   = new Authorizer(true);
-			_enterTrigger = owner.GetAsyncTriggerEnterTrigger();
-			_exitTrigger  = owner.GetAsyncTriggerExitTrigger();
-			_stayTrigger  = owner.GetAsyncTriggerStayTrigger();
-			_callbacks = new AsyncColliderOpCallbacks {
-				{ TriggerState.Enter, new AsyncOpCallback<Collider>() },
-				{ TriggerState.Exit, new AsyncOpCallback<Collider>() },
-				{ TriggerState.Stay, new AsyncOpCallback<Collider>() }
-			};
-			_logging      = new UnityLogging(this);
-			_cancellation = new CancellationTokenWrapper();
-		}
-
-		readonly CancellationTokenWrapper _cancellation;
-		readonly Authorizer               _authorizer;
-		readonly AsyncColliderOpCallbacks    _callbacks;
-		readonly AsyncTriggerEnterTrigger _enterTrigger;
-		readonly AsyncTriggerExitTrigger  _exitTrigger;
-		readonly AsyncTriggerStayTrigger  _stayTrigger;
-		readonly ILogging         _logging;
 	}
 }

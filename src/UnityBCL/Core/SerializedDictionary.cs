@@ -11,14 +11,14 @@ namespace UnityBCL {
 	public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver
 		where TKey : notnull {
 		// Internal
-		[SerializeField] [AssetList] List<KeyValuePair> list = new List<KeyValuePair>();
+		[SerializeField] [AssetList] List<KeyValuePair> list = new();
 
 #pragma warning disable 0414
 		[SerializeField] [HideInInspector] bool keyCollision;
 #pragma warning restore 0414
-		[SerializeField] [HideInInspector] Dictionary<TKey, TValue> _dict = new Dictionary<TKey, TValue>();
+		[SerializeField] [HideInInspector] Dictionary<TKey, TValue> _dict = new();
 
-		[SerializeField] Dictionary<TKey, int> _indexByKey = new Dictionary<TKey, int>();
+		[SerializeField] Dictionary<TKey, int> _indexByKey = new();
 
 		// IDictionary
 		public TValue this[TKey key] {
@@ -46,9 +46,7 @@ namespace UnityBCL {
 			_indexByKey.Add(key, list.Count - 1);
 		}
 
-		public bool ContainsKey(TKey key) {
-			return _dict.ContainsKey(key);
-		}
+		public bool ContainsKey(TKey key) => _dict.ContainsKey(key);
 
 		public bool Remove(TKey key) {
 			if (_dict.Remove(key)) {
@@ -81,10 +79,9 @@ namespace UnityBCL {
 			_indexByKey.Clear();
 		}
 
-		public bool Contains(KeyValuePair<TKey, TValue> pair) {
-			return _dict.TryGetValue(pair.Key, out var value) &&
-			       EqualityComparer<TValue>.Default.Equals(value, pair.Value);
-		}
+		public bool Contains(KeyValuePair<TKey, TValue> pair) => _dict.TryGetValue(pair.Key, out var value) &&
+		                                                         EqualityComparer<TValue>.Default.Equals(value,
+			                                                         pair.Value);
 
 		public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) {
 			if (array == null)
@@ -110,13 +107,9 @@ namespace UnityBCL {
 		}
 
 		// IEnumerable
-		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-			return _dict.GetEnumerator();
-		}
+		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dict.GetEnumerator();
 
-		IEnumerator IEnumerable.GetEnumerator() {
-			return _dict.GetEnumerator();
-		}
+		IEnumerator IEnumerable.GetEnumerator() => _dict.GetEnumerator();
 
 		// Since lists can be serialized natively by unity no custom implementation is needed
 		public void OnBeforeSerialize() {
@@ -140,9 +133,7 @@ namespace UnityBCL {
 			}
 		}
 
-		public Dictionary<TKey, TValue> GetNonSerializedDictionary() {
-			return _dict;
-		}
+		public Dictionary<TKey, TValue> GetNonSerializedDictionary() => _dict;
 
 		public ReadOnlyDictionary<TKey, TValue> GetNonSerializedReadonlyDictionary() {
 			var roDict = new ReadOnlyDictionary<TKey, TValue>(_dict);

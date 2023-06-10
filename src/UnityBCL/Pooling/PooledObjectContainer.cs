@@ -2,5 +2,6 @@
 
 namespace UnityBCL {
 	[Serializable]
-	public class PooledObjectContainer : SerializedDictionary<int, PooledObjectSetup> {}
+	public class PooledObjectContainer : SerializedDictionary<int, PooledObjectSetup> {
+	}
 }
