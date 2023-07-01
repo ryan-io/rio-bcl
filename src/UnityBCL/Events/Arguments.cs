@@ -33,7 +33,7 @@ namespace UnityBCL {
 			public FloatArgs(float value) => Value = value;
 		}
 
-		public class PooledObjectStateChangeArgs {
+		public readonly struct PooledObjectStateChangeArgs {
 			public PooledObjectStateChangeArgs(float duration, bool withCriteria, bool activationState,
 				CancellationToken cancellationToken, GameObject objectToDisable, Predicate<bool>? criteria) {
 				Duration          = duration;

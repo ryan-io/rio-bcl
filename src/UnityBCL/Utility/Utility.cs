@@ -383,9 +383,9 @@ namespace UnityBCL {
 		}
 
 
-		public static Color GetRandomColor() => new Color(UnityEngine.Random.Range(0f, 1f),
-			UnityEngine.Random.Range(0f,                                               1f),
-			UnityEngine.Random.Range(0f,                                               1f), 1f);
+		public static Color GetRandomColor() => new(UnityEngine.Random.Range(0f, 1f),
+			UnityEngine.Random.Range(0f,                                         1f),
+			UnityEngine.Random.Range(0f,                                         1f), 1f);
 
 		public static void ResetSequencialColors() {
 			_sequencialColorIndex = -1;
@@ -397,7 +397,7 @@ namespace UnityBCL {
 		}
 
 		public static Color GetColor255(float red, float green, float blue, float alpha = 255f)
-			=> new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+			=> new(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 
 
 		// Generate random normalized direction
@@ -787,9 +787,9 @@ namespace UnityBCL {
 
 
 		public static Vector3 GetRandomPositionWithinRectangle(float xMin, float xMax, float yMin, float yMax)
-			=> new Vector3(UnityEngine.Random.Range(xMin, xMax), UnityEngine.Random.Range(yMin, yMax));
+			=> new(UnityEngine.Random.Range(xMin, xMax), UnityEngine.Random.Range(yMin, yMax));
 
-		public static Vector3 GetRandomPositionWithinRectangle(Vector3 lowerLeft, Vector3 upperRight) => new Vector3(
+		public static Vector3 GetRandomPositionWithinRectangle(Vector3 lowerLeft, Vector3 upperRight) => new(
 			UnityEngine.Random.Range(lowerLeft.x, upperRight.x),
 			UnityEngine.Random.Range(lowerLeft.y, upperRight.y));
 
@@ -1722,9 +1722,8 @@ namespace UnityBCL {
 			}
 		}
 
-		public static Observable<Tsender, Tobserver> GetNewObservable<Tsender, Tobserver>()
-			where Tobserver : EventArgs
-			=> new Observable<Tsender, Tobserver>();
+		public static Observable<Tsender, Tobserver> GetNewObservable<Tsender, Tobserver>() where Tobserver : EventArgs
+			=> new();
 
 		public static void EventInvokeTestLog(object sender, EventArgs e) {
 			Debug.Log("----- EventInvokeTestLog -----");

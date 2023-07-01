@@ -7,6 +7,12 @@ using UnityEngine;
 
 namespace UnityBCL {
 	public class CancellationTokenWrapper : IDisposable {
+		/// <summary>
+		/// Queries both the internal cancellation token and the linked cancellation token for 'IsCancellationRequested'
+		/// </summary>
+		public bool IsCancellationRequested => _linkedCancellationTokenSource.IsCancellationRequested ||
+		                                     _cancellationTokenSource.IsCancellationRequested;
+		
 		readonly ILogging _logging;
 
 		CancellationTokenSource _cancellationTokenSource;
@@ -74,11 +80,28 @@ namespace UnityBCL {
 		///     Creates a new LinkedCancellationTokenSource and returns a new CancellationToken relative to this linked
 		///     source. This linked source also takes into account the internal CancellationToken.
 		/// </summary>
-		/// <param name="tokens">Any number of external tokens,</param>
+		/// <param name="tokens">Any number of external tokens.</param>
 		/// <returns>A new linked CancellationToken source from params tokens & the internal instance source.</returns>
 		public CancellationToken GetNewLinkedToken(params CancellationToken[] tokens) {
 			Dispose();
 			var appendedTokens = tokens.Append(_cancellationTokenSource.Token).ToArray();
+			_linkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(appendedTokens);
+			return _linkedCancellationTokenSource.Token;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="monoBehaviour">The monobehavior context to create a new token from.</param>
+		/// <param name="tokens">Any number of external tokens</param>
+		/// <returns>A new linked CancellationToken source from params tokens & the internal instance source.</returns>
+		public CancellationToken GetNewLinkedTokenWithOnDestroy(MonoBehaviour monoBehaviour, params CancellationToken[] tokens) {
+			Dispose();
+			var appendedTokens = tokens
+			                    .Append( _cancellationTokenSource.Token)
+			                    .Append(monoBehaviour.GetCancellationTokenOnDestroy())
+			                    .ToArray();
+			
 			_linkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(appendedTokens);
 			return _linkedCancellationTokenSource.Token;
 		}

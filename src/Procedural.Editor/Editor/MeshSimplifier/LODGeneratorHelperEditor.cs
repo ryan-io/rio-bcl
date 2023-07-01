@@ -29,7 +29,13 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProceduralAuxiliary;
+using ProceduralAuxiliary.MeshSimplifier;
+using ProceduralAuxiliary.MeshSimplifier.Components;
+using ProceduralAuxiliary.MeshSimplifier.Utility;
+#if UNITY_STANDALONE || UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;

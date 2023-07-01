@@ -1,3 +1,5 @@
+using ProceduralAuxiliary;
+using ProceduralAuxiliary.MeshSimplifier;
 using UnityEngine;
 
 namespace Procedural {

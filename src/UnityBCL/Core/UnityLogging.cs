@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using BCL;
-using UnityEditor;
 using UnityEngine;
 
 namespace UnityBCL {
@@ -76,16 +75,7 @@ namespace UnityBCL {
 			Output(Sanitize(message, bold, italic, size), LogLevel.Test, ctx);
 #endif
 		}
-
-		public void ClearConsole() {
-#if UNITY_EDITOR || UNITY_STANDALONE
-			var assembly = Assembly.GetAssembly(typeof(Editor));
-			var type     = assembly.GetType("UnityEditor.LogEntries");
-			var method   = type.GetMethod("Clear");
-			method.Invoke(new object(), null);
-#endif
-		}
-
+		
 		public string Sanitize(string value, bool bold, bool italic, int size) {
 #if UNITY_EDITOR|| UNITY_STANDALONE
 			if (string.IsNullOrWhiteSpace(value)) {

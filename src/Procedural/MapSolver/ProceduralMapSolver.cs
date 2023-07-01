@@ -5,6 +5,8 @@ using System.Threading;
 using BCL;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityBCL;
 using UnityEngine;
 
@@ -103,8 +105,9 @@ namespace Procedural {
 
 		public ProceduralMapModel Model { get; private set; }
 
-		public async UniTask Progress_PopulatingMap(CancellationToken token)
-			=> Model.Map = await _fillMapSolver.Fill(Model.Map, token);
+		public async UniTask Progress_PopulatingMap(CancellationToken token) {
+			Model.Map = await _fillMapSolver.Fill(Model.Map, token);
+		}
 
 		public async UniTask Progress_SmoothingMap(CancellationToken token)
 			=> Model.Map = await _smoothMapSolver.Smooth(Model.Map, token);
@@ -119,7 +122,7 @@ namespace Procedural {
 			_roomSolver = new SimpleRoomSolver();
 			await _roomSolver.Solve();
 
-			Logger.Test("Serializing tracker data", "Data Serialization", true);
+			Logger.Test("Serializing tracker data", "Data Serialization");
 			var mapStats = new MapStats(_lastSeed, _lastIteration, MonoModel.ProceduralProceduralMapConfig.NameOfMap);
 			ProceduralMapStatsHelper.WriteNewSeed(mapStats, GetComponent<SerializerSetup>());
 		}

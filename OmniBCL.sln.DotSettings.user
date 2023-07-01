@@ -66,4 +66,6 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Development\unity-projects\omni-project\Library\ScriptAssemblies\UniTask.Linq.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files\Unity\Hub\Editor\2022.2.16f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Development\dynamic-linked-libraries\Sirenix.OdinInspector.Attributes.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Development\dynamic-linked-libraries\UnityEditor.CoreModule.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

@@ -1,4 +1,6 @@
 using Pathfinding.Serialization;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityBCL;
 
 namespace Procedural {

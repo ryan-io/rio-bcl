@@ -4,6 +4,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityBCL;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Procedural {
 	public class SetAllTilesSyncTileTypeSolver : TileTypeSolver {

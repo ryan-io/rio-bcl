@@ -14,6 +14,6 @@
 
 		public static implicit operator T?(AsyncRef<T?> r) => r.Value;
 
-		public static implicit operator AsyncRef<T>(T value) => new AsyncRef<T>(value);
+		public static implicit operator AsyncRef<T>(T value) => new(value);
 	}
 }

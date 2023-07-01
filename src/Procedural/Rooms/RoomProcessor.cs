@@ -16,7 +16,7 @@ namespace Procedural {
 		}
 
 		public void Draw() {
-			if (_roomData.Rooms.IsNullOrEmpty())
+			if (_roomData.Rooms.IsEmptyOrNull())
 				return;
 
 			var colorCounter = 0;

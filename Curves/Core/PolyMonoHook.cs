@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,24 +11,6 @@ namespace Curves {
 
 		const string NoExtractPoints = "There is no vectory array to extact points from. Please check to verify " +
 		                               "that the points array was properly extract.";
-
-		[TitleGroup("Settings")]
-		[SerializeField]
-		[LabelText("Draw Polynomial Points")]
-		[EnumToggleButtons]
-		[Indent]
-		[PropertyOrder(10)]
-		[PropertySpace(10, 10)]
-		Toggle _drawPolyPoints = Toggle.Yes;
-
-		[TitleGroup("Settings")]
-		[ShowInInspector]
-		[PropertyOrder(10)]
-		[PropertySpace(10, 10)]
-		[Indent]
-		[SerializeField]
-		[Range(0.05f, 25f)]
-		float _radius = 5;
 
 		[TitleGroup("Settings")]
 		[SerializeField]
@@ -44,8 +27,8 @@ namespace Curves {
 		[PropertyOrder(10)]
 		[PropertySpace(10, 10)]
 		[Indent]
-		[TableList(AlwaysExpanded = true, HideToolbar = true, ShowIndexLabels = true, NumberOfItemsPerPage = 15,
-			CellPadding = 5)]
+		[ListDrawerSettings(Expanded = true, DraggableItems = true, ShowIndexLabels = true, NumberOfItemsPerPage = 10,
+			HideAddButton = true, HideRemoveButton = true)]
 		[SerializeField]
 		Vector2[] _processedPoints;
 
@@ -63,9 +46,6 @@ namespace Curves {
 
 		public Color Color
 			=> _color;
-
-		public bool ShouldDraw
-			=> _drawPolyPoints == Toggle.Yes;
 
 		bool GuardAgainstNoLocalSpacePoints
 			=> _processedPoints == null || _processedPoints.Length < 1;
@@ -90,20 +70,6 @@ namespace Curves {
 			_processedPoints = _data.Load();
 		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-
-		void OnDrawGizmosSelected() {
-			if (!ShouldDraw || _processedPoints == null)
-				return;
-
-			var count = _processedPoints.Length;
-
-			Gizmos.color = _color;
-
-			for (var i = 0; i < count; i++) Gizmos.DrawSphere(_processedPoints[i], _radius);
-		}
-
-#endif
 		public Vector2[] GetPoints()
 			=> _processedPoints;
 
@@ -140,6 +106,71 @@ namespace Curves {
 			=> points == null || points.Count < 1;
 
 		void ConvertPointToLocalSpace(int i, Vector2[] points)
-			=> _processedPoints[i] = transform.InverseTransformPoint(points[i]);
+			=> _processedPoints[i] = transform.TransformPoint(points[i]);
+
+		// [TitleGroup("Settings")]
+		// [SerializeField]
+		// [LabelText("Draw Polynomial Points")]
+		// [EnumToggleButtons]
+		// [Indent]
+		// [PropertyOrder(10)]
+		// [PropertySpace(10, 10)]
+		// Toggle _drawPolyPoints = Toggle.Yes;
+		//
+		//
+#if UNITY_EDITOR || UNITY_STANDALONE
+
+		[TitleGroup("Settings")]
+		[SerializeField]
+		[LabelText("Draw Polynomial Points")]
+		[EnumToggleButtons]
+		[Indent]
+		[PropertyOrder(10)]
+		[PropertySpace(10, 10)]
+		GizmoDraw _gizmosDraw = GizmoDraw.Never;
+
+		[TitleGroup("Settings")]
+		[ShowInInspector]
+		[PropertyOrder(10)]
+		[PropertySpace(10, 10)]
+		[Indent]
+		[SerializeField]
+		[Range(0.05f, 25f)]
+		float _radius = 5;
+
+#endif
+
+#if UNITY_EDITOR
+
+		void OnDrawGizmosSelected() {
+			if (_processedPoints == null || _gizmosDraw == GizmoDraw.Never || _gizmosDraw == GizmoDraw.Always)
+				return;
+
+			DrawPoints();
+		}
+
+		void OnDrawGizmos() {
+			if (_processedPoints == null || _gizmosDraw == GizmoDraw.Never || _gizmosDraw == GizmoDraw.OnSelected)
+				return;
+
+			DrawPoints();
+		}
+
+		void DrawPoints() {
+			var count = _processedPoints.Length;
+
+			Gizmos.color = _color;
+
+			for (var i = 0; i < count; i++) Gizmos.DrawSphere(_processedPoints[i], _radius);
+		}
+
+		[Serializable]
+		enum GizmoDraw {
+			Always,
+			OnSelected,
+			Never
+		}
+
+#endif
 	}
 }

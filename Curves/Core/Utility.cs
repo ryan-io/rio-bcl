@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -22,16 +22,16 @@ namespace Curves {
 		}
 
 		public static class Operations {
-#if UNITY_EDITOR || UNITY_STANDALONE
+#if UNITY_EDITOR
 
 			public static void Record(Object obj, string label = "Move") {
-				Undo.RecordObject(obj, label);
-				EditorUtility.SetDirty(obj);
+				UnityEditor.Undo.RecordObject(obj, label);
+				UnityEditor.EditorUtility.SetDirty(obj);
 			}
 
 			public static void FitViewToScreen(Transform tr, IReadOnlyList<Vector2> points) {
 				Debug.Log("Calling FitView");
-				var sceneCamera = EditorWindow.GetWindow<SceneView>().camera;
+				var sceneCamera = UnityEditor.EditorWindow.GetWindow<UnityEditor.SceneView>().camera;
 				var minX        = points.Min(point => point.x);
 				var maxX        = points.Max(point => point.x);
 				var miny        = points.Min(point => point.y);
@@ -54,12 +54,12 @@ namespace Curves {
 				Spline.Connection.Free, Spline.Connection.Free
 			};
 
-			static readonly Vector2[] LinePoints = { Vector2.zero, 50 * Vector2.one };
+			static readonly Vector2[] LinePoints = { Vector2.zero, 2 * Vector2.one };
 
-			static readonly Vector2[] CurvePointsQuadratic = { Vector2.zero, Vector2.one, 50 * Vector2.one };
+			static readonly Vector2[] CurvePointsQuadratic = { Vector2.zero, Vector2.one, 2 * Vector2.one };
 
 			static readonly Vector2[] SplinePoints =
-				{ Vector2.zero, 25 * Vector2.one, 50 * Vector2.one, 100 * Vector2.one };
+				{ Vector2.zero, 2 * Vector2.one, 3 * Vector2.one, 4 * Vector2.one };
 
 			public static Vector2[] GetDefaultPoints(SplineType type) {
 				switch (type) {
@@ -105,15 +105,15 @@ namespace Curves {
 		}
 
 		public static class Handle {
-#if UNITY_EDITOR || UNITY_STANDALONE
+#if UNITY_EDITOR 
 
 			public static float GetSize(Vector2 point)
-				=> HandleUtility.GetHandleSize(point);
+				=> UnityEditor.HandleUtility.GetHandleSize(point);
 
 			public static bool IsSelected(Vector2 point, Quaternion rotation, float sizeScalar)
-				=> Handles.Button(
+				=> UnityEditor.Handles.Button(
 					point, rotation, sizeScalar * Constants.HandleSize,
-					sizeScalar                  * Constants.PickSize, Handles.DotHandleCap);
+					sizeScalar                  * Constants.PickSize, UnityEditor.Handles.DotHandleCap);
 
 #endif
 		}
@@ -201,7 +201,7 @@ namespace Curves {
 			}
 
 			public static void DrawCurveQuadratic(Curve2D polynomial) {
-#if UNITY_EDITOR
+#if UNITY_EDITOR 
 
 				var start = polynomial.GetPointQuadratic(0f);
 				start = ConvertPointToWorldSpace(polynomial.transform, start);
@@ -209,7 +209,7 @@ namespace Curves {
 				for (var i = 1; i <= polynomial._steps; i++) {
 					var end = polynomial.GetPointQuadratic(i / (float)polynomial._steps);
 					end = ConvertPointToWorldSpace(polynomial.transform, end);
-					Handles.DrawLine(start, end);
+					UnityEditor.Handles.DrawLine(start, end);
 					start = end;
 				}
 
@@ -217,7 +217,7 @@ namespace Curves {
 			}
 
 			public static void DrawCurveQuadratic(IReadOnlyList<Vector2> points, Transform handleTr) {
-#if UNITY_EDITOR
+#if UNITY_EDITOR 
 
 				var start = points[0];
 				var count = points.Count;
@@ -225,7 +225,7 @@ namespace Curves {
 
 				for (var i = 1; i < count; i++) {
 					var end = ConvertPointToWorldSpace(handleTr.transform, points[i]);
-					Handles.DrawLine(start, end);
+					UnityEditor.Handles.DrawLine(start, end);
 					start = end;
 				}
 
@@ -244,9 +244,13 @@ namespace Curves {
 				p3 = ConvertPointToWorldSpace(polynomial.transform, p3);
 				p4 = ConvertPointToWorldSpace(polynomial.transform, p4);
 
-				Handles.DrawBezier(
+#if UNITY_EDITOR 
+
+				UnityEditor.Handles.DrawBezier(
 					p1, p2, p3, p4,
 					polynomial.SerializedColor, null, 2f);
+
+#endif
 			}
 		}
 

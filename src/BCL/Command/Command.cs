@@ -4,11 +4,19 @@
 			if (!ValidateArguments(args))
 				return;
 
-			InternalExecute(args);
+			Run(args);
 		}
 
-		protected abstract void InternalExecute(T args);
+		protected abstract void Run(T args);
 
 		static bool ValidateArguments(T args) => args?.GetType() == typeof(T);
+	}
+
+	public abstract class Command {
+		public void Execute() {
+			Run();
+		}
+
+		protected abstract void Run();
 	}
 }

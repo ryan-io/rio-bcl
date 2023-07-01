@@ -2,12 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Source;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityBCL;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Procedural {
 	/// <summary>
@@ -22,9 +28,7 @@ namespace Procedural {
 	public class ProceduralController : Singleton<ProceduralController, ProceduralController>,
 	                                    IEventListener<EventStateChange<CreationState>>,
 	                                    IEventListener<EventStateChange<ProgressState>> {
-		[SerializeField] [Title("Flow")] readonly FlowDependency _flowDependency = new();
-
-		UnityLogging Logger;
+		[SerializeField] [Title("Flow")] FlowDependency _flowDependency = new();
 
 		readonly List<IValidate> _validations = new();
 		CreationFlow             _creationFlow;
@@ -33,6 +37,8 @@ namespace Procedural {
 		CancellationTokenSource  _tokenSource;
 
 		WalkabilityRule _walkabilityRule;
+
+		UnityLogging Logger;
 
 		public CancellationToken CancellationToken {
 			get {
@@ -51,45 +57,34 @@ namespace Procedural {
 		[field: Required]
 		public ProceduralCoreConfig CoreConfiguration { get; private set; }
 
-		public void InitializeGeneration() {
-			Logger = new UnityLogging(gameObject.name);
+		void Awake() {
+			InitializeGeneration();
+		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-			Logger.ClearConsole();
-#endif
-			var cellSize = _flowDependency.FlowComponents.ProceduralMapSolver.MonoModel.ProceduralProceduralMapConfig
-			                              .CellSize;
-			var tileModel = _flowDependency.FlowComponents.ProceduralTileSolver.MonoModel;
-			_stopwatch = Stopwatch.StartNew();
-			_validations.AddRange(GetComponents<IValidate>());
-			_progressFlow    = new ProgressFlow(_flowDependency);
-			_walkabilityRule = new WalkabilityRule(tileModel.BoundaryTilemap, tileModel.GroundTilemap, cellSize);
+		async void Start() {
+			try {
+				await BeginGeneration();
+			}
+			catch (OperationCanceledException) {
+				Logger.Warning("Generation has been canceled...");
+			}
+		}
+
+		void OnEnable() {
+			ResetToken();
 			this.StartListeningToEvents<EventStateChange<CreationState>>();
 			this.StartListeningToEvents<EventStateChange<ProgressState>>();
 		}
 
-		public async UniTask BeginGeneration() {
-			var exitHandler = new ProceduralExitHandler();
-
-			var statements = new Func<bool>[] {
-				() => _flowDependency == null,
-				() => _flowDependency.GetComponents.IsNullOrEmpty(),
-				() => _flowDependency.GetComponents.Any(c => c == null)
-			};
-
-			exitHandler.DetermineQuit(statements);
-
-			foreach (var component in _validations)
-				component.ValidateShouldQuit();
-
-			_creationFlow = new CreationFlow(_flowDependency);
-			_progressFlow = new ProgressFlow(_flowDependency);
-			await UniTask.DelayFrame(CoreConfiguration.FramesToDelayBeforeGeneration,
-				cancellationToken: CancellationToken);
-			_flowDependency.FlowComponents.ProceduralMapStateMachine.CreationSm.ChangeState(CreationState.Cleaning);
+		void OnDisable() {
+			ResetToken(false);
+			this.StopListeningToEvents<EventStateChange<CreationState>>();
+			this.StopListeningToEvents<EventStateChange<ProgressState>>();
 		}
 
-		public void Cancel() => _tokenSource?.Cancel();
+		void OnDestroy() {
+			OnDisable();
+		}
 
 		public async void OnEventHeard(EventStateChange<CreationState> e) {
 			if (e.NewState == CreationState.DidNotGenerate) {
@@ -139,40 +134,60 @@ namespace Procedural {
 		public async void OnEventHeard(EventStateChange<ProgressState> e) {
 			await _progressFlow.HandleFlow(e, GetTimeElapsedInMilliseconds, _tokenSource.Token);
 		}
-
-		void Awake() {
-			InitializeGeneration();
+		
+		public void ClearConsole() {
+#if UNITY_EDITOR || UNITY_STANDALONE
+			var assembly = Assembly.GetAssembly(typeof(Editor));
+			var type     = assembly.GetType("UnityEditor.LogEntries");
+			var method   = type.GetMethod("Clear");
+			method.Invoke(new object(), null);
+#endif
 		}
 
-		void OnEnable() {
-			ResetToken();
+		public void InitializeGeneration() {
+			Logger = new UnityLogging(gameObject.name);
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+			ClearConsole();
+#endif
+			var cellSize = _flowDependency.FlowComponents.ProceduralMapSolver.MonoModel.ProceduralProceduralMapConfig
+			                              .CellSize;
+			var tileModel = _flowDependency.FlowComponents.ProceduralTileSolver.MonoModel;
+			_stopwatch = Stopwatch.StartNew();
+			_validations.AddRange(GetComponents<IValidate>());
+			_progressFlow    = new ProgressFlow(_flowDependency);
+			_walkabilityRule = new WalkabilityRule(tileModel.BoundaryTilemap, tileModel.GroundTilemap, cellSize);
 			this.StartListeningToEvents<EventStateChange<CreationState>>();
 			this.StartListeningToEvents<EventStateChange<ProgressState>>();
 		}
 
-		async void Start() {
-			try {
-				await BeginGeneration();
-			}
-			catch (OperationCanceledException) {
-				Logger.Warning("Generation has been canceled...");
-			}
+		public async UniTask BeginGeneration() {
+			var exitHandler = new ProceduralExitHandler();
+
+			var statements = new Func<bool>[] {
+				() => _flowDependency == null,
+				() => _flowDependency.GetComponents.IsEmptyOrNull(),
+				() => _flowDependency.GetComponents.Any(c => c == null)
+			};
+
+			exitHandler.DetermineQuit(statements);
+
+			foreach (var component in _validations)
+				component.ValidateShouldQuit();
+
+			_creationFlow = new CreationFlow(_flowDependency);
+			_progressFlow = new ProgressFlow(_flowDependency);
+			await UniTask.DelayFrame(CoreConfiguration.FramesToDelayBeforeGeneration,
+				cancellationToken: CancellationToken);
+			_flowDependency.FlowComponents.ProceduralMapStateMachine.CreationSm.ChangeState(CreationState.Cleaning);
 		}
+
+		public void Cancel() => _tokenSource?.Cancel();
 
 		public void ResetToken(bool createToken = true) {
 			_tokenSource?.Cancel();
 			_tokenSource?.Dispose();
 			_tokenSource = new CancellationTokenSource();
-		}
-
-		void OnDisable() {
-			ResetToken(false);
-			this.StopListeningToEvents<EventStateChange<CreationState>>();
-			this.StopListeningToEvents<EventStateChange<ProgressState>>();
-		}
-
-		void OnDestroy() {
-			OnDisable();
 		}
 
 		static void QuitGame() {
@@ -204,7 +219,7 @@ namespace Procedural {
 		[Button]
 		[ShowIf("@ShouldFix")]
 		void Fix() {
-			_flowDependency.FlowComponents.ProceduralMapSolver = gameObject.FixComponent<ProceduralMapSolver>();
+			_flowDependency.FlowComponents.ProceduralMapSolver  = gameObject.FixComponent<ProceduralMapSolver>();
 			_flowDependency.FlowComponents.ProceduralMeshSolver = gameObject.FixComponent<ProceduralMeshSolver>();
 			_flowDependency.FlowComponents.ProceduralTileSolver = gameObject.FixComponent<ProceduralTileSolver>();
 			_flowDependency.FlowComponents.ProceduralPathfindingSolver =
@@ -214,9 +229,9 @@ namespace Procedural {
 			_flowDependency.FlowComponents.Events = gameObject.FixComponent<ProceduralGenerationEvents>();
 			_flowDependency.FlowComponents.ProceduralUtilityCreation =
 				gameObject.FixComponent<ProceduralUtility>();
-			_flowDependency.FlowComponents.ProceduralScaler = gameObject.FixComponent<ProceduralScaler>();
+			_flowDependency.FlowComponents.ProceduralScaler     = gameObject.FixComponent<ProceduralScaler>();
 			_flowDependency.FlowComponents.ProceduralController = gameObject.FixComponent<ProceduralController>();
-			_flowDependency.FlowComponents.SerializerSetup = gameObject.FixComponent<SerializerSetup>();
+			_flowDependency.FlowComponents.SerializerSetup      = gameObject.FixComponent<SerializerSetup>();
 		}
 
 #endif

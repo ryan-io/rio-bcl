@@ -1,5 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityBCL;
 using UnityEngine;
 using Object = UnityEngine.Object;

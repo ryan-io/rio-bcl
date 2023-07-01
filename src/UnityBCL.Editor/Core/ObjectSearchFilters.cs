@@ -5,7 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+#if UNITY_STANDALONE || UNITY_EDITOR
+using UnityEditor;
 using UnityEditorInternal;
+#endif
 using UnityEngine;
 using Object = UnityEngine.Object;
 

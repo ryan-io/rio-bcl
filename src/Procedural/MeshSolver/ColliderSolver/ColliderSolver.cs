@@ -14,7 +14,7 @@ namespace Procedural {
 				}
 			};
 
-			if (!componentsToAdd.IsNullOrEmpty())
+			if (!componentsToAdd.IsEmptyOrNull())
 				foreach (var component in componentsToAdd)
 					newObj.AddComponent(component);
 

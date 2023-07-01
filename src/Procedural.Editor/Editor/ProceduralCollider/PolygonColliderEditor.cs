@@ -1,4 +1,6 @@
 #if UNITY_EDITOR || UNITY_STANDALONE
+using ProceduralAuxiliary;
+using ProceduralAuxiliary.ProceduralCollider;
 using UnityEditor;
 using UnityEngine;
 

@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using BCL;
 using Sirenix.OdinInspector;
-using UnityBCL;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
+#if UNITY_STANDALONE || UNITY_EDITOR
+using UnityEditor;
 using UnityEditorInternal;
+#endif
 using UnityEngine;
 using UnityEngine.Serialization;
 

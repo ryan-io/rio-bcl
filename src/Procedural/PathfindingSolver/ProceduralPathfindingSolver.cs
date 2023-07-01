@@ -172,7 +172,7 @@ namespace Procedural {
 
 			var statements = new Func<bool>[] {
 				() => MonobehaviorModel.PathfindingGameObject == null,
-				() => MonobehaviorModel.ObstacleLayerMasks.IsNullOrEmpty()
+				() => MonobehaviorModel.ObstacleLayerMasks.IsEmptyOrNull()
 			};
 
 			exitHandler.DetermineQuit(statements);

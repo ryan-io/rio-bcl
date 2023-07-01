@@ -1,6 +1,8 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
+#if UNITY_EDITOR || UNITY_STANDALONE
+using Sirenix.OdinInspector;
+#endif
 
 namespace UnityBCL {
 	[Serializable]

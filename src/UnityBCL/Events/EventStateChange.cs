@@ -11,7 +11,7 @@ namespace UnityBCL {
 		public T               PreviousState;
 
 		public EventStateChange(StateMachine<T> stateMachine) {
-			Target             = stateMachine.Target;
+			Target             = stateMachine.Owner;
 			TargetStateMachine = stateMachine;
 			NewState           = stateMachine.CurrentState;
 			PreviousState      = stateMachine.PreviousState;

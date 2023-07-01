@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using ProceduralAuxiliary;
+using ProceduralAuxiliary.ProceduralCollider;
 using UnityBCL;
 using UnityEngine;
 
@@ -31,7 +33,7 @@ namespace Procedural {
 				}
 			}
 
-			model.ColliderGameObject.SetLayerRecursive(LayerMask.NameToLayer("Boundary"));
+			MonoBehaviourExtension.SetLayerRecursive(model.ColliderGameObject, LayerMask.NameToLayer("Boundary"));
 
 			return new UniTask();
 		}

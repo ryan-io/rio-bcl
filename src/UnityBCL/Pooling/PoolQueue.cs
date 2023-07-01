@@ -25,10 +25,14 @@ namespace UnityBCL {
 		}
 
 		public Queue<GameObject> GetQueue(string objectIdentifier, bool outputLogs = false) {
+			var log = new UnityLogging(this);
+			if (outputLogs) {
+				log.Log(LogLevel.Test, "Attempting to pool with id: " + objectIdentifier);
+			}
+			
 			var hasValue = _poolingDictionary.TryGetValue(objectIdentifier, out var queue);
 
 			if (outputLogs) {
-				var log = new UnityLogging(this);
 				log.Log(LogLevel.Test, $"Queue key: {queue}");
 				log.Log(LogLevel.Test, $"Queue key: {hasValue}");
 			}

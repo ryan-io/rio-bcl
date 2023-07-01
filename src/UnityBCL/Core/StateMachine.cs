@@ -35,11 +35,11 @@ namespace UnityBCL {
 		///     Creates a new StateMachine, with a targetName (used for events, usually use GetInstanceID()), and whether you want
 		///     to use events with it or not
 		/// </summary>
-		/// <param name="target">GameObject target</param>
+		/// <param name="owner">GameObject target</param>
 		/// <param name="eventHandler">Event manager proxy</param>
 		/// <param name="triggerEvents">If set to <c>true</c> trigger events.</param>
-		public StateMachine(GameObject target, IEvent eventHandler, bool triggerEvents) {
-			Target         = target;
+		public StateMachine(GameObject owner, IEvent eventHandler, bool triggerEvents) {
+			Owner         = owner;
 			_triggerEvents = triggerEvents;
 			_eventHandler  = eventHandler;
 		}
@@ -52,7 +52,7 @@ namespace UnityBCL {
 		/// MMEventManager.StartListening(gameObject.GetInstanceID().ToString()+"CrouchingEarlyUpdate",OnCrouchingEarlyUpdate); for example will listen to the Early Update event of the Crouching state, and 
 		/// will trigger the OnCrouchingEarlyUpdate() method.
 
-		public GameObject Target { get; }
+		public GameObject Owner { get; }
 
 		public T CurrentState { get; protected set; }
 

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using BCL;
 using Sirenix.OdinInspector;
-using UnityBCL;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityEngine;
 
 namespace Curves {
@@ -16,6 +18,13 @@ namespace Curves {
 		public bool DrawHandleLines => _drawHandleLines == Toggle.Yes;
 
 		public IReadOnlyList<Vector2> PointsReadonly => _points;
+
+		public IReadOnlyList<Vector2> PointsExtractedReadonly {
+			get {
+				ExtractPoints();
+				return _extractedPoints;
+			}
+		}
 
 		public bool ShouldDrawRootHandles => _drawRootHandles == Toggle.Yes;
 

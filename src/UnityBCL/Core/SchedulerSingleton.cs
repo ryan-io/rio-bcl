@@ -14,7 +14,7 @@ namespace UnityBCL {
 		bool RunFixedUpdateInDebug  => _runFixedUpdateInDebug  == Toggle.Yes;
 
 		void Update() {
-			if (_updateActions.IsNullOrEmpty()) return;
+			if (_updateActions.IsEmptyOrNull()) return;
 			if (RunNormalUpdateInDebug)
 				NormalUpdateInDebugMode();
 			else
@@ -24,7 +24,7 @@ namespace UnityBCL {
 		}
 
 		void FixedUpdate() {
-			if (_fixedUpdateActions.IsNullOrEmpty()) return;
+			if (_fixedUpdateActions.IsEmptyOrNull()) return;
 			if (RunFixedUpdateInDebug)
 				FixedUpdateInDebugMode();
 			else
@@ -33,7 +33,7 @@ namespace UnityBCL {
 		}
 
 		void LateUpdate() {
-			if (_lateUpdateActions.IsNullOrEmpty()) return;
+			if (_lateUpdateActions.IsEmptyOrNull()) return;
 			if (RunLateUpdateInDebug)
 				LateUpdateInDebugMode();
 			else
@@ -87,7 +87,7 @@ namespace UnityBCL {
 		public void RemoveAt(int index, Schedule schedule) {
 			var actions = GetArray(schedule);
 
-			if (actions.IsNullOrEmpty())
+			if (actions.IsEmptyOrNull())
 				return;
 
 			actions[index] = null!;

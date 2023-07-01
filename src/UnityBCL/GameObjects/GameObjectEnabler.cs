@@ -14,7 +14,7 @@ namespace UnityBCL {
 		public List<GameObject> GameObjectsToEnable { get; private set; } = new();
 
 		void Start() {
-			if (GameObjectsToEnable.IsNullOrEmpty())
+			if (GameObjectsToEnable.IsEmptyOrNull())
 				return;
 
 			var count = GameObjectsToEnable.Count;
@@ -59,7 +59,7 @@ namespace UnityBCL {
 		}
 
 		public void Enable() {
-			if (GameObjectsToEnable.IsNullOrEmpty())
+			if (GameObjectsToEnable.IsEmptyOrNull())
 				return;
 
 			var count = 0;

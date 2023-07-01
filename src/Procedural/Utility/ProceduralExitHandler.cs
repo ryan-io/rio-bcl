@@ -23,7 +23,7 @@ namespace Procedural {
 		}
 
 		public bool DetermineQuit(params Func<bool>[] statements) {
-			if (statements.IsNullOrEmpty())
+			if (statements.IsEmptyOrNull())
 				return false;
 
 			foreach (var statement in statements) {

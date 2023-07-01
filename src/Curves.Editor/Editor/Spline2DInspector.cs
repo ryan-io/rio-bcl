@@ -1,4 +1,6 @@
+#if UNITY_STANDALONE || UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Curves.Editor {

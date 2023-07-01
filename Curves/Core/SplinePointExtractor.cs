@@ -29,6 +29,7 @@ namespace Curves {
 			VerifyEnd(polynomial);
 
 			return new ExtractionData(ExtractedPoints, numOfDivisions);
+			;
 		}
 
 		protected override void SetDivisionsPerCurve(Spline2D spline, int numberOfDivisions)

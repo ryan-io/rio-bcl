@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityBCL;
 
 namespace Procedural {
@@ -11,7 +13,7 @@ namespace Procedural {
 		public List<Room> Rooms => _rooms;
 
 		public void Inject(List<Room> rooms, string fileName) {
-			if (rooms.IsNullOrEmpty() || string.IsNullOrWhiteSpace(fileName)) {
+			if (rooms.IsEmptyOrNull() || string.IsNullOrWhiteSpace(fileName)) {
 #if UNITY_STANDALONE || UNITY_EDITOR
 				var log = new UnityLogging();
 				log.Error(CannotSaveError);

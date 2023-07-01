@@ -3,11 +3,8 @@ using Cysharp.Threading.Tasks;
 
 namespace UnityBCL {
 	public class PooledObjectStateChangeUnitOfWork : AsyncUnitOfWork<Arguments.PooledObjectStateChangeArgs> {
-		protected override async UniTask
-			TaskLogic(Arguments.PooledObjectStateChangeArgs? args, CancellationToken token) {
-			if (args == null)
-				return;
-
+		protected override async UniTask TaskLogic(
+			Arguments.PooledObjectStateChangeArgs args, CancellationToken token) {
 			await args.Duration.SecAsTask(token);
 			if (args.Criteria != null) {
 				if (args.Criteria.Invoke(args.WithCriteria))

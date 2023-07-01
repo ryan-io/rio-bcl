@@ -39,7 +39,7 @@ namespace Procedural {
 		}
 
 		void Cut(bool forceCache = false) {
-			if (_colliders.IsNullOrEmpty() && !forceCache) return;
+			if (_colliders.IsEmptyOrNull() && !forceCache) return;
 
 			_colliders = new HashSet<Collider>(GetComponentsInChildren<Collider>());
 

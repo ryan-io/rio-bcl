@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+#if UNITY_STANDALONE || UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
+#endif
 using UnityEngine;
 
 namespace UnityBCL.Editor {

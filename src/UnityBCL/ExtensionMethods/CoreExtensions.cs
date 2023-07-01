@@ -13,8 +13,20 @@ using Random = System.Random;
 
 namespace UnityBCL {
 	public static class CoreExtensions {
+#region MONOBEHAVIOR
+
+		public static bool HasComponent(this MonoBehaviour o, Type componentType) {
+			return o.GetComponent(componentType);
+		}
+
+#endregion
+		
 #region COMPONENT
 
+		public static bool HasComponent(this Component o, Type componentType) {
+			return o.GetComponent(componentType);
+		}
+		
 		public static I GetComponentInterface<T, I>(this Component o) where T : I {
 			if (o.TryGetComponent<T>(out var extractedType) && extractedType is I)
 				return extractedType;
@@ -45,7 +57,7 @@ namespace UnityBCL {
 		public static I[] FindComponentsWithInterface<T, I>() where T : Object, I where I : class {
 			var outputList = new List<I>();
 
-			if (outputList.IsNullOrEmpty())
+			if (outputList.IsEmptyOrNull())
 				return Array.Empty<I>();
 
 			var sceneComponents = Object.FindObjectsOfType<T>();
@@ -60,6 +72,10 @@ namespace UnityBCL {
 #endregion
 
 #region GAMEOBJECT
+
+		public static bool HasComponent(this GameObject go, Type componentType) {
+			return go.GetComponent(componentType);
+		}
 
 		public static void DeleteObj(this IEnumerable<Component> c, GameObject? owner = null) {
 			foreach (var component in c)
@@ -127,7 +143,7 @@ namespace UnityBCL {
 		public static void SetLayerWithDepth(this GameObject o, int layer) {
 			var components = o.GetComponentsInChildren<Transform>();
 
-			if (components.IsNullOrEmpty())
+			if (components.IsEmptyOrNull())
 				return;
 
 			for (var i = 0; i < components.Length; i++) {
@@ -166,6 +182,20 @@ namespace UnityBCL {
 
 		public static async UniTask FramesAsTask(this int integer, CancellationToken token) {
 			await UniTask.DelayFrame(integer, cancellationToken: token);
+		}
+
+		// TODO: What is the correct PlayerLoopTiming? Pre, normal, or late fixed update?
+		public static async UniTask FramesAsTaskFixed(this int integer, CancellationToken token) {
+			await UniTask.DelayFrame(integer, PlayerLoopTiming.FixedUpdate, cancellationToken: token);
+		}
+
+		public static async UniTask FramesAsTaskLate(this int integer, CancellationToken token) {
+			await UniTask.DelayFrame(integer, PlayerLoopTiming.PreLateUpdate, cancellationToken: token);
+		}
+
+		public static async UniTask FramesAsTaskLate(this int integer,
+			PlayerLoopTiming timing, CancellationToken token) {
+			await UniTask.DelayFrame(integer, timing, cancellationToken: token);
 		}
 
 #endregion
@@ -259,19 +289,19 @@ namespace UnityBCL {
 			return copyComponent as T;
 		}
 
-		public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, TValue>? dict)
+		public static bool IsEmptyOrNull<TKey, TValue>(this Dictionary<TKey, TValue>? dict)
 			=> dict == null || !dict.GetEnumerator().MoveNext();
 
-		public static bool IsNullOrEmpty<T>(this T[]? collection)
+		public static bool IsEmptyOrNull<T>(this T[]? collection)
 			=> collection == null || !collection.GetEnumerator().MoveNext();
 
-		public static bool IsNullOrEmpty<T>(this List<T>? list)
+		public static bool IsEmptyOrNull<T>(this List<T>? list)
 			=> list == null || !list.GetEnumerator().MoveNext();
 
-		public static bool IsNullOrEmpty(this IEnumerable? enumerable)
+		public static bool IsEmptyOrNull(this IEnumerable? enumerable)
 			=> enumerable == null || !enumerable.GetEnumerator().MoveNext();
 
-		public static bool IsNullOrEmpty<T>(this IEnumerable<T>? enumerable) => enumerable == null || !enumerable.Any();
+		public static bool IsEmptyOrNull<T>(this IEnumerable<T>? enumerable) => enumerable == null || !enumerable.Any();
 
 		public static bool IsNull(this object? obj) => obj == null;
 
@@ -338,7 +368,7 @@ namespace UnityBCL {
 		public static double NextRange(this Random random, double min, double max)
 			=> new Random().NextDouble() * (max - min) + min;
 
-		public static bool IsNullOrEmpty(this ICollection enumerable)
+		public static bool IsEmptyOrNull(this ICollection enumerable)
 			=> enumerable == null || enumerable.Count < 1;
 
 		public static void SetEulerAngles(this Transform tr, Vector3 angles) {
@@ -482,7 +512,7 @@ namespace UnityBCL {
 
 		public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
 			IReadOnlyDictionary<TKey, TValue> range) {
-			if (range.IsNullOrEmpty())
+			if (range.IsEmptyOrNull())
 				return;
 
 			foreach (var pair in range)

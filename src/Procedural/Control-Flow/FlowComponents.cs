@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
-using UnityBCL;
+using Unity.Serialization;
+using Unity.Serialization.Serialization;
 using UnityEngine;
 
 namespace Procedural {
