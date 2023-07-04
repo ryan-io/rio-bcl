@@ -4,7 +4,8 @@ using System.Threading;
 using BCL;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Source;
+using Source.Events;
+using StateMachine;
 using UnityBCL;
 using UnityEngine;
 
@@ -14,8 +15,8 @@ namespace Procedural {
 
 	public class ProceduralPathfindingSolver : Singleton<ProceduralPathfindingSolver, IProceduralPathfindingSolver>,
 	                                           IProgress, ICreation, IValidate,
-	                                           IEventListener<GenerationData>,
-	                                           IEventListener<EventStateChange<CreationState>> {
+	                                           IEngineEventListener<GenerationData>,
+	                                           IEngineEventListener<EventStateChange<CreationState>> {
 		const string AIPathfindingName         = "AI Ground Level Grid";
 		const string PathfindingMeshGameObject = "Pathfinding Mesh Game Object";
 		const string ScanStart                 = "scanStart";

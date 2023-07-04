@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace UnityBCL {
@@ -15,20 +17,38 @@ namespace UnityBCL {
 		[FormerlySerializedAs("_model")] [SerializeField] [HideLabel]
 		public PoolingMonoModel Model = new();
 
+		[field: SerializeField, Title("On Initialization Complete Callback")]
+		public ScriptableUnityEvent[] OnInitComplete { get; private set; }
+
 		CancellationTokenSource _cancellationTokenSource = null!;
 		PoolQueue               _poolQueue               = null!;
 		[ShowInInspector] int   QueueCount => _poolQueue.QueueCount;
 
-		async void Awake() {
+		void Awake() {
 			_poolQueue               = new PoolQueue();
 			_cancellationTokenSource = new CancellationTokenSource();
 
-			foreach (var pooledObject in Model.PooledObjectContainer) {
-				if (pooledObject.Value == null)
-					continue;
+			var unitOfWork = new EmptyUnitOfWorkCtx(
+				async _ => {
+					var token = gameObject.GetCancellationTokenOnDestroy();
 
-				await CreatePool(pooledObject.Value, pooledObject.Key);
-			}
+					foreach (var pooledObject in Model.PooledObjectContainer) {
+						if (pooledObject.Value == null)
+							continue;
+
+						if (token.IsCancellationRequested) {
+							throw new OperationCanceledException("Application shutdown. Pooling not complete.");
+						}
+
+						await CreatePool(pooledObject.Value, pooledObject.Key);
+					}
+
+					foreach (var t in OnInitComplete)
+						if (t)
+							t.InvokeEvent();
+				});
+			
+			unitOfWork.FireForget(this.GetCancellationTokenOnDestroy());
 		}
 
 		void OnDisable() {

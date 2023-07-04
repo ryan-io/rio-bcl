@@ -5,9 +5,9 @@ using System.Threading;
 using BCL;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Unity.Serialization;
-using Unity.Serialization.Serialization;
 using UnityBCL;
+using UnityBCL.Serialization;
+using UnityBCL.Serialization.Core;
 using UnityEngine;
 
 namespace Procedural {

@@ -1,7 +1,8 @@
 ﻿using System;
+using Source.Events;
 using UnityEngine;
 
-namespace UnityBCL {
+namespace StateMachine {
 	/// <summary>
 	///     Public interface for the state machine.
 	///     This is used by the StateMachineProcessor.
@@ -27,8 +28,7 @@ namespace UnityBCL {
 	/// </summary>
 	public class StateMachine<T> : IStateMachine where T : struct, IComparable, IConvertible, IFormattable {
 		public delegate void OnStateChangeDelegate();
-
-		readonly IEvent _eventHandler;
+		
 		readonly bool   _triggerEvents;
 
 		/// <summary>
@@ -38,10 +38,9 @@ namespace UnityBCL {
 		/// <param name="owner">GameObject target</param>
 		/// <param name="eventHandler">Event manager proxy</param>
 		/// <param name="triggerEvents">If set to <c>true</c> trigger events.</param>
-		public StateMachine(GameObject owner, IEvent eventHandler, bool triggerEvents) {
+		public StateMachine(GameObject owner, bool triggerEvents) {
 			Owner         = owner;
 			_triggerEvents = triggerEvents;
-			_eventHandler  = eventHandler;
 		}
 
 		/// If you set TriggerEvents to true, the state machine will trigger events when entering and exiting a state. 
@@ -91,7 +90,7 @@ namespace UnityBCL {
 
 			OnStateChange?.Invoke();
 
-			if (_triggerEvents) _eventHandler.TriggerEvent(new EventStateChange<T>(this));
+			if (_triggerEvents) EngineEvent.TriggerEvent(new EventStateChange<T>(this));
 		}
 
 		/// <summary>
@@ -103,7 +102,7 @@ namespace UnityBCL {
 
 			OnStateChange?.Invoke();
 
-			if (_triggerEvents) _eventHandler.TriggerEvent(new EventStateChange<T>(this));
+			if (_triggerEvents) EngineEvent.TriggerEvent(new EventStateChange<T>(this));
 		}
 	}
 }

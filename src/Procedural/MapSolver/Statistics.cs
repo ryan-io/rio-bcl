@@ -2,8 +2,8 @@
 using System.IO;
 using System.Text;
 using Sirenix.OdinInspector;
-using Unity.Serialization;
-using Unity.Serialization.Serialization;
+using UnityBCL.Serialization;
+using UnityBCL.Serialization.Core;
 using UnityEngine;
 
 namespace Procedural {

@@ -1,5 +1,4 @@
 ﻿using Pathfinding;
-using Source;
 
 namespace Procedural {
 	public class GraphScanFinalize {
@@ -12,7 +11,9 @@ namespace Procedural {
 			gridGraph.collision.diameter               = settings.CollisionDetectionDiameter;
 			gridGraph.collision.height                 = settings.CollisionDetectionHeight;
 			gridGraph.collision.mask                   = settings.ObstacleLayerMask;
-			Event.TriggerEvent(new GraphScanComplete());
+
+			var proxy = new EngineEventProxy();
+			proxy.TriggerEvent(new GraphScanComplete());
 		}
 	}
 }

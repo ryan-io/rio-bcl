@@ -4,6 +4,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Source;
+using Source.Events;
+using StateMachine;
 using Unity.Mathematics;
 using UnityBCL;
 using UnityEditor;
@@ -28,8 +30,8 @@ namespace Procedural {
 
 	public class ProceduralUtility : Singleton<ProceduralUtility, ProceduralUtility>,
 	                                 ICreation,
-	                                 IEventListener<EventStateChange<ProgressState>>,
-	                                 IEventListener<GridSetEvent> {
+	                                 IEngineEventListener<EventStateChange<ProgressState>>,
+	                                 IEngineEventListener<GridSetEvent> {
 		[Title("Required Monobehaviors")] [SerializeField] [HideLabel]
 		ProceduralMapUtilityMonobehaviorModel _monoModel;
 

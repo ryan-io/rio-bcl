@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Unity.Serialization.Serialization {
+namespace UnityBCL.Serialization.Core {
 	public interface ISave {
 		void Save(Object obj, string fileName, bool overWrite = false);
 	}

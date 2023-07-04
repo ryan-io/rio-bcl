@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
-using Source;
+using Source.Events;
 using Unity.Mathematics;
 using UnityBCL;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace Procedural {
 	}
 
 	public class ProceduralScaler : Singleton<ProceduralScaler, ProceduralScaler>,
-	                                IEventListener<ProgressState>, IValidate {
+	                                IEngineEventListener<ProgressState>, IValidate {
 		[SerializeField] [HideLabel] ProceduralScalerMonobehaviorModel _monoModel;
 
 		bool ShouldFix => _monoModel != null && _monoModel.GetPropertyValues<object>().Any(x => x == null);

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Pathfinding;
 using Sirenix.OdinInspector;
-using Source;
+using Source.Events;
 using UnityBCL;
 using UnityEngine;
 
 namespace Procedural {
-	public class GraphColliderCutter : MonoBehaviour, IEventListener<GraphScanComplete> {
+	public class GraphColliderCutter : MonoBehaviour, IEngineEventListener<GraphScanComplete> {
 		[SerializeField] [EnumToggleButtons] CutType _cutType;
 
 		[SerializeField] bool _updateNodesBasedOnPhysics = true;

@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityBCL;
 using UnityEngine;
-using Event = Source.Event;
 
 namespace Procedural {
 	[RequireComponent(typeof(MeshFilter))]
@@ -88,7 +87,9 @@ namespace Procedural {
 
 			var characteristics = new MapCharacteristics(_meshTriangulationSolver.Outlines, vertices);
 			ProceduralGenerationEvents.Global.Hook.MapCharacteristicsCalculated?.Invoke(characteristics);
-			Event.TriggerEvent(_cachedMeshGeneratedData);
+
+			var proxy = new EngineEventProxy();
+			proxy.TriggerEvent(_cachedMeshGeneratedData);
 		}
 
 		public UniTask Progress_CalculatingPathfinding(

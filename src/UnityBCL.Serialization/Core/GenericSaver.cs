@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using BCL;
-using UnityBCL;
 using UnityEngine;
 
-namespace Unity.Serialization.Serialization {
+namespace UnityBCL.Serialization.Core {
 	public class GenericSaver : ISave {
 		public void Save(Object obj, string fileName, bool overWrite = false) {
 			if (GuardAgainstNullObject(obj)) {

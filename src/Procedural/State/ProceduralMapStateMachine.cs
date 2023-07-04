@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Source;
+using Source.Events;
 using UnityBCL;
 using UnityEngine;
+using StateMachine;
 
 namespace Procedural {
 	public interface IProceduralMapStateMachine {
 	}
 
 	public class ProceduralMapStateMachine : Singleton<ProceduralMapStateMachine, IProceduralMapStateMachine>,
-	                                         ICreation, IValidate, IEventListener<CreationState> {
+	                                         ICreation, IValidate, IEngineEventListener<CreationState> {
 		[SerializeField] [HideLabel] ProceduralMapStateMachineMonobehaviorModel _monoModel;
 		public                       StateMachine<ApplicationState>             ApplicationSm { get; private set; }
 		public                       StateMachine<RuntimeState>                 RuntimeSm     { get; private set; }
@@ -22,9 +23,10 @@ namespace Procedural {
 
 		bool ShouldFix => _monoModel != null && _monoModel.GetPropertyValues<object>().Any(x => x == null);
 
-		IEvent EventProxy { get; } = new EventProxy();
+		EngineEventProxy EventProxy { get; set; }
 
 		void Awake() {
+			EventProxy = new EngineEventProxy();
 			CreateStateMachines();
 		}
 
@@ -72,10 +74,10 @@ namespace Procedural {
 		public void CreateStateMachines() {
 			this.StartListeningToEvents();
 			var go = gameObject;
-			ApplicationSm = new StateMachine<ApplicationState>(go, EventProxy, true);
-			CreationSm    = new StateMachine<CreationState>(go, EventProxy, true);
-			ProgressSm    = new StateMachine<ProgressState>(go, EventProxy, true);
-			RuntimeSm     = new StateMachine<RuntimeState>(go, EventProxy, true);
+			ApplicationSm = new StateMachine<ApplicationState>(go, true);
+			CreationSm    = new StateMachine<CreationState>(go, true);
+			ProgressSm    = new StateMachine<ProgressState>(go, true);
+			RuntimeSm     = new StateMachine<RuntimeState>(go, true);
 		}
 
 		public void RegisterStateMachines() {

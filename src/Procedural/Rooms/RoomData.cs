@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using Unity.Serialization;
-using Unity.Serialization.Serialization;
 using UnityBCL;
+using UnityBCL.Serialization;
+using UnityBCL.Serialization.Core;
 
 namespace Procedural {
 	[Serializable]

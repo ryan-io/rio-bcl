@@ -1,7 +1,7 @@
 using Pathfinding.Serialization;
-using Unity.Serialization;
-using Unity.Serialization.Serialization;
 using UnityBCL;
+using UnityBCL.Serialization;
+using UnityBCL.Serialization.Core;
 
 namespace Procedural {
 	public static class AstarSerializer {

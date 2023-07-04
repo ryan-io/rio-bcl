@@ -1,12 +1,12 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Source;
+using Source.Events;
 using UnityBCL;
 using UnityEngine;
-using Event = Source.Event;
+using StateMachine;
 
 namespace Procedural {
-	public class ProgressFlow : IEventListener<GenerationData> {
+	public class ProgressFlow : IEngineEventListener<GenerationData> {
 		readonly StateMachine<CreationState> _creationSm;
 		readonly FlowDependency              _flowDependency;
 		readonly StateMachine<ProgressState> _progressSm;
@@ -22,7 +22,7 @@ namespace Procedural {
 
 		UnityLogging Logger { get; }
 
-		void IEventListener<GenerationData>.OnEventHeard(GenerationData e) {
+		void IEngineEventListener<GenerationData>.OnEventHeard(GenerationData e) {
 			_progressSm.ChangeState(ProgressState.CalculatingPathfinding);
 		}
 
@@ -94,7 +94,7 @@ namespace Procedural {
 			var mapConfig = _flowDependency.FlowComponents.ProceduralMapSolver.MonoModel.ProceduralProceduralMapConfig;
 			var sceneObjs = _flowDependency.FlowComponents.ProceduralTileSolver.MonoModel.TileMapGameObjects;
 			var gridSetEvent = new GridSetEvent(sceneObjs, mapConfig.MapSizeInt, mapConfig.CellSize);
-			Event.TriggerEvent(gridSetEvent);
+			EngineEvent.TriggerEvent(gridSetEvent);
 		}
 
 		PathfindingProgressData CreateProgressData() {

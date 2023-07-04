@@ -1,11 +1,11 @@
 ﻿using BCL;
-using Source;
+using Source.Events;
 using Unity.Mathematics;
 using UnityBCL;
 
 namespace Procedural {
 	public class ProceduralSceneBounds : Singleton<ProceduralSceneBounds, ISceneBounds>,
-	                                     IEventListener<MapDimensionsModel> {
+	                                     IEngineEventListener<MapDimensionsModel> {
 		Observable<int4>         _observable;
 		public IObservable<int4> OnBoundaryDetermined => _observable;
 
@@ -21,7 +21,7 @@ namespace Procedural {
 			this.StopListeningToEvents();
 		}
 
-		void IEventListener<MapDimensionsModel>.OnEventHeard(MapDimensionsModel e) {
+		void IEngineEventListener<MapDimensionsModel>.OnEventHeard(MapDimensionsModel e) {
 			OnCompleteInvokeBoundaryEvent(e);
 		}
 

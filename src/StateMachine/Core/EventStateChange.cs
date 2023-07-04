@@ -3,7 +3,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityBCL {
+namespace StateMachine {
 	public struct EventStateChange<T> where T : struct, IComparable, IConvertible, IFormattable {
 		public GameObject      Target;
 		public StateMachine<T> TargetStateMachine;

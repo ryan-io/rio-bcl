@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Unity.Serialization.Serialization {
+namespace UnityBCL.Serialization.Core {
 	public static class Sanitizer {
 		const string RegexPattern   = @"[^\w\.@-]";
 		const float  DefaultTimeout = 1.0f;
