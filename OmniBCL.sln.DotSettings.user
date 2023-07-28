@@ -65,6 +65,7 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_005CUnity_005CHub_005CEditor_005C2022_002E2_002E16f1_005CEditor_005CData_005CManaged_005CUnityEngine_005CUnityEngine_002ECoreModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_005CUnity_005CHub_005CEditor_005C2022_002E2_002E16f1_005CEditor_005CData_005CManaged_005CUnityEngine_005CUnityEngine_002EPhysicsModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_005CUnity_005CHub_005CEditor_005C2022_002E2_002E16f1_005CEditor_005CData_005CManaged_005CUnityEngine_005CUnityEngine_002EUnityWebRequestModule_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateConstants/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AA_BB" /&gt;</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Development\unity-projects\omni-project\Library\ScriptAssemblies\UniTask.Linq.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files\Unity\Hub\Editor\2022.2.16f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll" /&gt;&#xD;

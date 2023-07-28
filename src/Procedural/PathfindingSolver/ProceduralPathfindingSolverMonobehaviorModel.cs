@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using BCL;
 using Sirenix.OdinInspector;
 using UnityBCL.Serialization;
-using UnityBCL.Serialization.Core;
 #if UNITY_STANDALONE || UNITY_EDITOR
 using UnityEditorInternal;
 #endif

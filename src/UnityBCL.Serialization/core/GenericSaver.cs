@@ -2,7 +2,7 @@
 using BCL;
 using UnityEngine;
 
-namespace UnityBCL.Serialization.Core {
+namespace UnityBCL.Serialization {
 	public class GenericSaver : ISave {
 		public void Save(Object obj, string fileName, bool overWrite = false) {
 			if (GuardAgainstNullObject(obj)) {
@@ -19,7 +19,7 @@ namespace UnityBCL.Serialization.Core {
 				return;
 			}
 
-			fileName += Strings.AssetSuffix;
+			fileName += Strings.ASSET_SUFFIX;
 
 			if (GuardAgainstNoDirectory(_saveFolder))
 				CreateNewDirectory(_saveFolder);
@@ -28,7 +28,7 @@ namespace UnityBCL.Serialization.Core {
 			var assetAlreadyExists = AssetWithSameNameExists(path);
 
 			if (assetAlreadyExists && !overWrite) {
-				_log.Log(LogLevel.Warning, Strings.AssetExists);
+				_log.Log(LogLevel.Warning, Strings.ASSET_EXISTS);
 				return;
 			}
 
@@ -46,7 +46,7 @@ namespace UnityBCL.Serialization.Core {
 				return;
 			}
 
-			_log.Log(Strings.SaveSuccess + path);
+			_log.Log(Strings.SAVE_SUCCESS + path);
 		}
 
 		static bool GuardAgainstNullObject(Object o) => !o;
@@ -62,13 +62,13 @@ namespace UnityBCL.Serialization.Core {
 			=> File.Exists(path);
 
 		void LogObjectIsNull()
-			=> _log.Log(Strings.SimpleSave);
+			=> _log.Log(Strings.SIMPLE_SAVE);
 
 		void LogIsNullOrWhitespace()
-			=> _log.Log(Strings.SimpleSave);
+			=> _log.Log(Strings.SIMPLE_SAVE);
 
 		void LogReturningEarly()
-			=> _log.Log(Strings.SimpleSave);
+			=> _log.Log(Strings.SIMPLE_SAVE);
 
 		static bool GuardAgainstNullOrWhitespace(string path)
 			=> string.IsNullOrWhiteSpace(path);
@@ -81,38 +81,38 @@ namespace UnityBCL.Serialization.Core {
 		readonly string   _saveFolder;
 		readonly ILogging _log;
 
-		public GenericSaver(string saveFolder) {
-			_log = new UnityLogging(this);
+		public GenericSaver(ILogging logger, string saveFolder) {
+			_log = logger;
 
 			if (GuardAgainstNullOrWhitespace(saveFolder))
-				_saveFolder = Strings.AssetsFolder + Strings.DefaultSaveFolder;
+				_saveFolder = Strings.ASSETS_FOLDER + Strings.DEFAULT_SAVE_FOLDER;
 
 			else
-				_saveFolder = Strings.AssetsFolder + saveFolder + Strings.Slash;
+				_saveFolder = Strings.ASSETS_FOLDER + saveFolder + Strings.SLASH;
 		}
 
 		static class Strings {
-			public const string Slash             = "/";
-			public const string AssetSuffix       = ".asset";
-			public const string AssetsFolder      = "Assets/";
-			public const string DefaultSaveFolder = "Save/";
+			public const string SLASH             = "/";
+			public const string ASSET_SUFFIX       = ".asset";
+			public const string ASSETS_FOLDER      = "Assets/";
+			public const string DEFAULT_SAVE_FOLDER = "Save/";
 
-			public const string InvalidPath =
+			public const string INVALID_PATH =
 				"Cannot create asset. The provided string was null or contained only whitespace.";
 
-			public const string ReturningEarly = "Saver will not exit early...";
+			public const string RETURNING_EARLY = "Saver will not exit early...";
 
-			public const string ObjectIsNull =
+			public const string OBJECT_IS_NULL =
 				"There object you are attempting to save is null or not valid. Please try again.";
 
-			public const string PathPrefix          = "Attempting to save asset at: ";
-			public const string CreatingDirectories = "Creating required directories...";
+			public const string PATH_PREFIX          = "Attempting to save asset at: ";
+			public const string CREATING_DIRECTORIES = "Creating required directories...";
 
-			public const string AssetExists =
+			public const string ASSET_EXISTS =
 				"Asset with the same name already exists. Please choose a different name.";
 
-			public const string SaveSuccess = "Asset was saved successfully to the following directory path: ";
-			public const string SimpleSave  = "SimpleSave";
+			public const string SAVE_SUCCESS = "Asset was saved successfully to the following directory path: ";
+			public const string SIMPLE_SAVE  = "SimpleSave";
 		}
 
 #endregion

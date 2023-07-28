@@ -10,7 +10,6 @@ using Source.Events;
 using StateMachine;
 using UnityBCL;
 using UnityBCL.Serialization;
-using UnityBCL.Serialization.Core;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;

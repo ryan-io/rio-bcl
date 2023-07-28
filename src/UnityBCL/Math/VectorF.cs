@@ -1,9 +1,31 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using r = UnityEngine.Random;
 
 namespace UnityBCL {
 	public static class VectorF {
-		const float Tolerance = 0.005f;
+		const float FLOATING_POINTER_ERROR = 0.005f;
+		
+		public static bool IsEssentiallyZero(float value1, float value2, float fPError = FLOATING_POINTER_ERROR) {
+			var value = Math.Abs(value1 - value2);
+			return value > -fPError && value < fPError;
+		}
+		
+		public static bool IsColinear(Vector2 point1, Vector2 point2, Vector2 point3, float fPError = FLOATING_POINTER_ERROR) {
+			var result = (point2.x - point1.x) * (point3.y - point2.y) -
+			             (point2.y - point1.y) * (point3.x - point2.x);
+			
+			return result < fPError && result > -fPError;
+		}
+
+		public static float GetSlope(Vector2 point1, Vector2 point2) {
+			var result =  (point2.y - point1.y) / (point2.x - point1.x);
+			
+			if (float.IsNaN(result) || float.IsInfinity(result))
+				return -1f;
+
+			return result;
+		}
 
 		public static Vector3 AddRandom(this Vector3 v, Limits limits) => v + GetRandomVector(limits);
 

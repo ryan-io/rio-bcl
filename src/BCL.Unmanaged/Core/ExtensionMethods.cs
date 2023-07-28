@@ -15,7 +15,10 @@ namespace BCL.Unmanaged {
 		/// <param name="list">Generic collection</param>
 		/// <typeparam name="T">Generic type that will be converted to Span</typeparam>
 		/// <returns></returns>
-		//public static Span<T> ConvertToSpan<T>(this List<T> list) => list.AsSpan();
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Span<T> ConvertToSpan<T>(this List<T> list) {
+			return list.AsSpan();
+		}
 
 		/// <summary>
 		/// External dll that wraps System.Runtime.InteropServices and makes an internal call to
@@ -24,7 +27,7 @@ namespace BCL.Unmanaged {
 		/// <param name="list">Generic collection</param>
 		/// <typeparam name="T">Generic type that will be converted to ReadOnlySpan</typeparam>
 		/// <returns></returns>
-		//public static ReadOnlySpan<T> ConvertToReadOnlySpan<T>(this List<T> list) => ConvertToSpan(list);
+		public static ReadOnlySpan<T> ConvertToReadOnlySpan<T>(this List<T> list) => ConvertToSpan(list);
 		
 		// THIS CONTEXT IS UNSAFE
 		static unsafe void UnsafeMock<T>(this List<T> list) {

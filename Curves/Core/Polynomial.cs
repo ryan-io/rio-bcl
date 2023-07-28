@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using BCL;
 using Sirenix.OdinInspector;
+using UnityBCL;
 using UnityBCL.Serialization;
-using UnityBCL.Serialization.Core;
 using UnityEngine;
 
 namespace Curves {
@@ -197,7 +197,7 @@ namespace Curves {
 			data.Initialize(_extractedPoints, SplineType);
 
 			var assetSaver =
-				new GenericSaver(
+				new GenericSaver(new UnityLogging(this),
 					Utility.Strings.ParentFolder + Utility.Strings.Slash + Utility.Strings.SaveToFolder);
 			assetSaver.Save(data, _splineName);
 		}

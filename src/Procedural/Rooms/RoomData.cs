@@ -4,7 +4,6 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityBCL;
 using UnityBCL.Serialization;
-using UnityBCL.Serialization.Core;
 
 namespace Procedural {
 	[Serializable]
@@ -23,7 +22,7 @@ namespace Procedural {
 
 			_rooms = rooms;
 
-			var generic = new GenericSaver(LevelGeneratorRoomData);
+			var generic = new GenericSaver(new UnityLogging(this), LevelGeneratorRoomData);
 			generic.Save(this, fileName, true);
 		}
 

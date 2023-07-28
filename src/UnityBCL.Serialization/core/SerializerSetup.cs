@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace UnityBCL.Serialization.Core {
+namespace UnityBCL.Serialization {
 	/// <summary>
 	///     The 'brain' of saving & loading persistent data within the Engine environment.
 	/// </summary>
@@ -31,6 +31,9 @@ namespace UnityBCL.Serialization.Core {
 				return AppPath;
 			}
 		}
+
+		public string SaveRootNameRaw   => _config.SaveFolderRoot;
+		public string SaveFolderNameRaw => _config.SaveFolder;
 
 		public string FileFormat => _config.SaveFormat;
 

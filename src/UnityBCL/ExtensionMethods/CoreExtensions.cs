@@ -20,13 +20,22 @@ namespace UnityBCL {
 		}
 
 #endregion
-		
+
 #region COMPONENT
 
+		public static void SafeDestroy(this Component c) {
+#if UNITY_EDITOR
+			Object.DestroyImmediate(c);
+
+#else
+			Object.Destroy(c);
+#endif
+		}
+		
 		public static bool HasComponent(this Component o, Type componentType) {
 			return o.GetComponent(componentType);
 		}
-		
+
 		public static I GetComponentInterface<T, I>(this Component o) where T : I {
 			if (o.TryGetComponent<T>(out var extractedType) && extractedType is I)
 				return extractedType;
@@ -48,6 +57,15 @@ namespace UnityBCL {
 
 #region OBJECT
 
+		public static void SafeDestroy(this Object c) {
+#if UNITY_EDITOR
+			Object.DestroyImmediate(c);
+
+#else
+			Object.Destroy(c);
+#endif
+		}
+		
 		public static IEnumerable<T> InstantiateMany<T>(T obj, int number) where T : Object {
 			if (number < 0) yield break;
 
@@ -72,6 +90,15 @@ namespace UnityBCL {
 #endregion
 
 #region GAMEOBJECT
+		
+		public static void SafeDestroy(this GameObject go) {
+#if UNITY_EDITOR
+			Object.DestroyImmediate(go);
+
+#else
+			Object.Destroy(go);
+#endif
+		}
 
 		public static bool HasComponent(this GameObject go, Type componentType) {
 			return go.GetComponent(componentType);
@@ -413,6 +440,47 @@ namespace UnityBCL {
 					if (list != null && !list.Contains(value[i])) list.Add(value[i]);
 					Debug.Log("TESTING:" + " " + value[i]);
 				}
+		}
+
+		public static void RemoveChildGameObjects(this GameObject go) {
+			if (!go)
+				return;
+
+			if (go.transform.childCount < 1)
+				return;
+
+			var transforms = go.GetComponentsInChildren<Transform>();
+
+			foreach (var tr in transforms) {
+				if (!tr || tr == go.transform)
+					continue;
+
+#if UNITY_EDITOR
+				Object.DestroyImmediate(tr);
+#else
+				Object.Destroy(tr);
+#endif
+			}
+		}
+
+		public static void RemoveComponents<T>(this GameObject go) where T : Component {
+			if (!go)
+				return;
+
+			var components = go.GetComponentsInChildren<T>();
+
+			if (components.IsEmptyOrNull())
+				return;
+
+			foreach (var c in components) {
+				if (!c) continue;
+
+#if UNITY_EDITOR
+				Object.DestroyImmediate(c);
+#else
+				Object.Destroy(c);
+#endif
+			}
 		}
 
 		public static void RemoveComponent<T>(this GameObject gameObject) where T : Component {

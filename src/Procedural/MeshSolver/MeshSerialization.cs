@@ -2,7 +2,6 @@ using System;
 using Sirenix.OdinInspector;
 using UnityBCL;
 using UnityBCL.Serialization;
-using UnityBCL.Serialization.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -57,7 +56,7 @@ namespace Procedural {
 				           : generatedMesh;
 
 			var name    = filePrefix + "_" + generatedData.MeshSeed + "_" + DateTime.Now.ToString("hh-mm-ss-MM-yyyy");
-			var generic = new GenericSaver(FolderName);
+			var generic = new GenericSaver(new UnityLogging(this), FolderName);
 			generic.Save(mesh, name, true);
 			var log = new UnityLogging();
 			log.Msg($"Saved {mesh.name} as {name}");
@@ -75,7 +74,7 @@ namespace Procedural {
 				var name = filePrefix + "-" + serializedMesh.name + "_" + generatedData.MeshSeed
 				           + "_"      + DateTime.Now.ToString("hh-mm-ss-MM-yyyy");
 
-				var generic = new GenericSaver(FolderName + $" - {generatedData.MeshSeed} Room Meshes");
+				var generic = new GenericSaver(new UnityLogging(this),FolderName + $" - {generatedData.MeshSeed} Room Meshes");
 				generic.Save(serializedMesh, name, true);
 				var log = new UnityLogging();
 				log.Msg($"Saved {serializedMesh.name} as {name}");

@@ -56,6 +56,10 @@ namespace BCL {
 
 		public Observable() => _observers = new HashSet<Action>();
 
+		public Observable(params Action[] observers) {
+			_observers = new HashSet<Action>(observers);
+		}
+
 		public bool IsConstrained { get; private set; }
 
 		public IEnumerator GetEnumerator() => _observers.GetEnumerator();
@@ -114,6 +118,11 @@ namespace BCL {
 		readonly HashSet<Action<T>> _observers;
 
 		public Observable() => _observers = new HashSet<Action<T>>();
+
+		public Observable(params Action<T>[] observers) {
+			_observers = new HashSet<Action<T>>(observers);
+		}
+
 		public bool IsConstrained { get; private set; }
 
 		public IEnumerator GetEnumerator() => _observers.GetEnumerator();
@@ -177,6 +186,7 @@ namespace BCL {
 		readonly HashSet<Action<T1, T2>> _observers;
 
 		public Observable() => _observers = new HashSet<Action<T1, T2>>();
+		public Observable(params Action<T1, T2>[] observers) => _observers = new HashSet<Action<T1, T2>>(observers);
 		public bool IsConstrained { get; private set; }
 
 		IEnumerator<Action<T1, T2>> IEnumerable<Action<T1, T2>>.GetEnumerator()
