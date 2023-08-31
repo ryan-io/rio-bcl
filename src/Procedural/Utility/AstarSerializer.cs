@@ -1,3 +1,4 @@
+using BCL.Serialization;
 using Pathfinding.Serialization;
 using UnityBCL;
 using UnityBCL.Serialization;
@@ -17,14 +18,16 @@ namespace Procedural {
 				editorSettings = true
 			};
 
+			var serializer       = new Serializer();
 			var bytes            = AstarPath.active.data.SerializeGraphs(settings);
-			var serializationJob = new Serializer.TxtJob(setup, name, bytes, setup.FileFormat);
-			Serializer.SaveBytesData(serializationJob, true);
+		//	var serializationJob = new SerializeJob.Text(setup, name, bytes, setup.FileFormat);
+			//serializer.SaveBytesData(serializationJob, true);
 		}
 
 		public static void DeserializeAstarGraph(AstarDeserializationJob job) {
-			var output  = job.DataPath + Prefix + job.NameOfMap + "_" + job.Seed + "_luid" + job.Iteration + ".txt";
-			var hasData = Serializer.TryLoadBytesData(output, out var data);
+			var serializer = new Serializer();
+			var output     = job.DataPath + Prefix + job.NameOfMap + "_" + job.Seed + "_luid" + job.Iteration + ".txt";
+			var hasData    = serializer.TryLoadBytesData(output, out var data);
 
 			if (hasData) {
 				AstarPath.active.data.DeserializeGraphs(data);

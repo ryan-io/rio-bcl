@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using BCL.Serialization;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace UnityBCL.Serialization {
@@ -6,8 +7,9 @@ namespace UnityBCL.Serialization {
 	///     The 'brain' of saving & loading persistent data within the Engine environment.
 	/// </summary>
 	public class SerializerSetup : MonoBehaviour {
-		[SerializeField] [HideLabel] SerializeConfiguration _config                  = null!;
-		string                                              _saveFolderNameSanitized = string.Empty;
+		[SerializeField] [Label("")] SerializeConfiguration _config                  = null!;
+
+		public static readonly string DefaultDirectory = Application.dataPath + "/";
 
 		/// <summary>
 		///     Save location. This lies within the Unity Application Data Path directory.
@@ -18,38 +20,19 @@ namespace UnityBCL.Serialization {
 		///     This is NOT encrypted as of 17 March, 2022.
 		/// </summary>
 
-		public string SaveRoot {
-			get {
-				Serializer.EnsureDirectoryExists(AppPathRoot, _config.SaveFolderRoot);
-				return AppPathRoot;
-			}
-		}
+		Serializer Serializer { get; } = new ();
 
 		public string SaveLocation {
 			get {
-				Serializer.EnsureDirectoryExists(AppPath, _config.SaveFolderRoot);
-				return AppPath;
+				Serializer.EnsureDirectoryExists(SavePath, _config.SaveFolder);
+				return SavePath;
 			}
 		}
 
-		public string SaveRootNameRaw   => _config.SaveFolderRoot;
-		public string SaveFolderNameRaw => _config.SaveFolder;
+		public string SaveFolderRaw => _config.SaveFolder;
 
 		public string FileFormat => _config.SaveFormat;
 
-		string AppPath => AppPathRoot + $"{_config.SaveFolder}/";
-
-		string AppPathRoot => Application.dataPath + "/" + _config.SaveFolderRoot + "/";
-
-		void OnValidate() {
-			if (Application.isPlaying)
-				return;
-
-			if (string.IsNullOrWhiteSpace(_config.SaveFolderRoot))
-				_config.SaveFolderRoot = Serializer.DefaultRoot;
-
-			if (string.IsNullOrWhiteSpace(_config.SaveFolder))
-				_config.SaveFolder = Serializer.DefaultFolder;
-		}
+		string SavePath => DefaultDirectory + $"{_config.SaveFolder}/";
 	}
 }

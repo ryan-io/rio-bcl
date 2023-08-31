@@ -12,10 +12,10 @@ namespace UnityBCL {
 		}
 		
 		public static bool IsColinear(Vector2 point1, Vector2 point2, Vector2 point3, float fPError = FLOATING_POINTER_ERROR) {
-			var result = (point2.x - point1.x) * (point3.y - point2.y) -
-			             (point2.y - point1.y) * (point3.x - point2.x);
-			
-			return result < fPError && result > -fPError;
+			var left   = (point2.x - point1.x) * (point3.y - point2.y);
+			var right = (point2.y - point1.y) * (point3.x - point2.x);
+				
+			return Math.Abs(left - right) < fPError;
 		}
 
 		public static float GetSlope(Vector2 point1, Vector2 point2) {

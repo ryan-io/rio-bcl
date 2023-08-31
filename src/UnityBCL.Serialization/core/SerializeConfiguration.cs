@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace UnityBCL.Serialization {
-#if UNITY_EDITOR || UNITY_STANDALONE
-	[Title("Serialization Configuration")]
-#endif
 	[Serializable]
 	public class SerializeConfiguration {
 		const string SERIALIZED_DATA_INFO =
@@ -26,31 +21,20 @@ namespace UnityBCL.Serialization {
 		public static readonly string NoDirectoryFound =
 			"Directory does not exist. The codebase needs to be debugged. There are fallbacks to create the directory if it cannot be found.";
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		[Title("Folder Setup")]
-		[field: InfoBox(SAVE_ROOT_INFO)]
-#endif
-		[field: SerializeField]
-		public string SaveFolderRoot { get; set; } = "SerializedData";
-
-#if UNITY_EDITOR || UNITY_STANDALONE
-		[field: InfoBox("Where serialized data is saved")]
-#endif
+		[field: InfoBox("Where serialized data is saved"), Header("Serialization Configuration")]
 		[field: SerializeField]
 		public string SaveFolder { get; set; } = "MyData";
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		[field: ValueDropdown("GetFormats")]
-#endif
+		[field: Dropdown("GetFormats")]
 		[field: SerializeField]
 		public string SaveFormat { get; private set; } = ".txt";
 
-		static IEnumerable GetFormats() {
-			var formats = new HashSet<string> {
-				".txt",
-				".json",
-				".bytes",
-				".prefab"
+		static DropdownList<string> GetFormats() {
+			var formats = new DropdownList<string> {
+				{ "JSON", ".json" },
+				{ "Text", ".txt" },
+				{ "Byte Array", ".bytes" },
+				{ "Unity Prefab", ".prefab" },
 			};
 
 			return formats;

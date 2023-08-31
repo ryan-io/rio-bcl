@@ -2,6 +2,10 @@
 
 namespace BCL {
 	public class Singleton<T> where T : class, new() {
+		protected ILogging? InternalLogging { get; set; }
+
+		public void InjectLogger(ILogging logger) => InternalLogging = logger;
+		
 		public static T Instance {
 			get {
 				lock (LockObj) 
@@ -14,6 +18,7 @@ namespace BCL {
 		static readonly Lazy<T> _instance = new (() => new T());
 		
 		public Singleton() {
+			
 		}
 	}
 }

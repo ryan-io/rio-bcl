@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using BCL.Serialization;
 using Sirenix.OdinInspector;
 using UnityBCL.Serialization;
 using UnityEngine;
@@ -39,11 +40,12 @@ namespace Procedural {
 			sb.Append("_luid");
 			sb.Append($"{stats.Iteration}");
 
-			Serializer.EnsureDirectoryExists(setup.SaveRoot + SerializationFolder, setup.SaveRoot);
-			Serializer.EnsureFileExists(setup.SaveRoot      + SerializationFolder, SeedTrackerName, ".txt");
+			var serialier = new Serializer();
+			Serializer.EnsureDirectoryExists(setup.SaveLocation);
+			serialier.EnsureFileExists(setup.SaveLocation, SeedTrackerName, ".txt");
 
-			var trackerPath = setup.SaveRoot   + SerializationFolder + "/" + SeedTrackerName + ".txt";
-			File.AppendAllText(trackerPath, sb + Environment.NewLine);
+			//var trackerPath = setup.SaveRoot   + SerializationFolder + "/" + SeedTrackerName + ".txt";
+			//File.AppendAllText(trackerPath, sb + Environment.NewLine);
 			Debug.Log("Updated the procedural seed tracker.");
 		}
 	}
