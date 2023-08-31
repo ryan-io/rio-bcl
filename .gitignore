@@ -20,7 +20,7 @@ Assets/AssetStoreTools*
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
-
+global.json
 #Rider Flow
 Assets/Plugins/Editor/JetBrains.RiderFlow/Backend.zip.meta
 Assets/Plugins/Editor/JetBrains.RiderFlow/Backend.zip
