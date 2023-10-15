@@ -2,6 +2,10 @@
 using UnityEngine;
 
 namespace UnityBCL {
+	/// <summary>
+	///   - Extension methods for the UnityEngine.Debug class.
+	///  ALL CODE CREDIT TO UNITY ASSET STORE: https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396
+	/// </summary>
 	public static class DebugExt {
 #region DebugDrawFunctions
 
