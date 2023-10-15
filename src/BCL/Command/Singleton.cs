@@ -1,6 +1,14 @@
 ﻿using System;
 
 namespace BCL {
+	/// <summary>
+	///   A singleton class. Provides a single static instance of class type T.
+	///  <para>Usage: public class MyClass : Singleton&lt;MyClass&gt; { }</para>
+	///  Can be accessed from anywhere using MyClass.Instance
+	///  Can also inject a logger using InjectLogger(ILogging logger); this implementation of logger is internal
+	///  to riot-bcl.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class Singleton<T> where T : class, new() {
 		protected ILogging? InternalLogging { get; set; }
 

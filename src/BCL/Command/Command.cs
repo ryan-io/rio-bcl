@@ -1,4 +1,8 @@
 ﻿namespace BCL {
+	/// <summary>
+	/// Simple implementation of the command pattern. Generic version.
+	/// </summary>
+	/// <typeparam name="T">Generic type, T; your choice</typeparam>
 	public abstract class Command<T> {
 		public void Execute(T args) {
 			if (!ValidateArguments(args))
@@ -12,6 +16,9 @@
 		static bool ValidateArguments(T args) => args?.GetType() == typeof(T);
 	}
 
+	/// <summary>
+	///  Simple implementation of the command pattern. Non-generic version.
+	/// </summary>
 	public abstract class Command {
 		public void Execute() {
 			Run();
