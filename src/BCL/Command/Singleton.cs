@@ -8,7 +8,7 @@ namespace BCL {
 	///  Can also inject a logger using InjectLogger(ILogging logger); this implementation of logger is internal
 	///  to riot-bcl.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">Type instance create a Singleton for</typeparam>
 	public class Singleton<T> where T : class, new() {
 		protected ILogging? InternalLogging { get; set; }
 

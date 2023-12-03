@@ -1,6 +1,7 @@
 ﻿// Test.Benchmark
 
 using BenchmarkDotNet.Attributes;
+using System.Drawing.Imaging;
 
 namespace Test.Benchmark;
 

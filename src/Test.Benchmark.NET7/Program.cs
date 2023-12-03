@@ -3,4 +3,6 @@
 using BenchmarkDotNet.Running;
 using Test.Benchmark;
 
-BenchmarkRunner.Run<SpanBenchmarks_SimpleIntegers>();
+Console.WriteLine("Hello, World!");
+
+BenchmarkRunner.Run<BenchmarkBmpModify>();

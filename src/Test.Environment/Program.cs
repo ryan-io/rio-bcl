@@ -1,20 +1,50 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Diagnostics;
+using Test.Environment.core;
 
-using BCL.Serialization;
-using Test.Benchmark;
-using Test.Code;
-using Test.Environment;
+var sw      = Stopwatch.StartNew();
+var semTest = new TwelvePointTwo_AsyncLocks();
 
-var tests = new IntegrationTests_Serializer();
-var output = tests.Test_SerializeString();
+try {
+//	await semTest.TestAsync(1);
+	
+	var task = TestAsync(semTest);
+	await task; // this does NOT deadlock
 
-Console.WriteLine("SaveLocation: " + output.Path);
-Console.WriteLine("SaveStatus: " + output.WasSuccessful);
+	//TestSynchronous(semTest); // this will deadlock
+	
+	//TestSynchronousWithTaskCreation(semTest); // this will deadlock
+	
+	Console.WriteLine($"Integer: {semTest.Integer}");
+	Console.WriteLine("All tasks completed");
+}
+catch (Exception e) {
+	Console.WriteLine(e);
+}
 
+sw.Stop();
+Console.WriteLine($"Elapsed: {sw.Elapsed}");
 
-var serializer = new Serializer();
-var deserializedString = serializer.DeserializeJson<string>(output.Path);
+return 0;
 
-Console.WriteLine("Lets see if this is empty: " + deserializedString);
-Console.ReadLine();
+async Task TestAsync(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
+	var tasks = new List<Task>();
+	for (var i = 0; i < 100; i++) {
+		var thread = i;
+		tasks.Add(Task.Run(async () => await semaphoreSlimTry.TestAsync(thread)));
+	}
+	await Task.WhenAll(tasks);
+}
 
+void TestSynchronous(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
+	for (var i = 0; i < 10; i++) {
+		var thread = i;
+		semaphoreSlimTry.Test(thread);
+	}
+}
+
+void TestSynchronousWithTaskCreation(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
+	for (var i = 0; i < 10; i++) {
+		var thread = i;
+		Task.Run(async () => await semaphoreSlimTry.TestAsync(thread));
+	}
+}
