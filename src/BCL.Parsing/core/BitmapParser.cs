@@ -78,7 +78,9 @@ namespace BCL.Parsing {
 		}
 
 		/// <summary>
-		/// Modifies the RGB values of a Bitmap at a specific index in an unsafe and concurrent manner. 
+		/// This code is base on: https://csharpexamples.com/fast-image-processing-c/
+		///		from author Turgay
+		/// Modifies the RGB values of a Bitmap at a specific index in an unsafe and concurrent manner.
 		/// </summary>
 		/// <param name="bitmapIndex">The index of the Bitmap in the internal array.</param>
 		/// <param name="functor">A delegate function that performs the desired modifications on the pixel data.</param>
@@ -99,7 +101,6 @@ namespace BCL.Parsing {
 			var   height        = bitmapData.Height;
 			var   width         = bitmapData.Width * bytesPerPixel;
 			byte* pxlPtr        = (byte*)bitmapData.Scan0;
-
 
 			// note documentation for Parallel.For
 			//		from INCLUSIVE ::: to EXCLUSIVE
