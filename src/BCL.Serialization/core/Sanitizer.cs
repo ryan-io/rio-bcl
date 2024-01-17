@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace BCL.Serialization {
+namespace RIO.BCL.Serialization {
 	public static class Sanitizer {
 		const string RegexPattern   = @"[^\w\.@-]";
 		const float  DefaultTimeout = 1.0f;

@@ -1,6 +1,6 @@
 // OmniBCL
 
-namespace BCL {
+namespace RIO.BCL {
 	public static class LogStrings {
 		public static readonly string LogStr     = "Log: ".Size(16).Italic();
 		public static readonly string WarningStr = "Warning: ".Italic().Size(16);

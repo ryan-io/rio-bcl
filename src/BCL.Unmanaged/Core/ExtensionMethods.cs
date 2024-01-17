@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace BCL.Unmanaged {
+namespace RIO.BCL.Unmanaged {
 	/// <summary>
 	///     Provides extension methods that are 'optimized' for performance. These methods utilize unsafe code.
 	/// </summary>

@@ -1,5 +1,5 @@
 ﻿using System;
-using BCL.Serialization;
+using RIO.BCL.Serialization;
 
 namespace Test.Code {
 	public class IntegrationTests_Serializer {

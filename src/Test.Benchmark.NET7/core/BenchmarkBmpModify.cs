@@ -1,9 +1,9 @@
 // Test.Benchmark
 
 using BenchmarkDotNet.Attributes;
-using simple_plotting.runtime;
+using simple_plotting;
 
-namespace Test.Benchmark;
+namespace Test.Benchmark.NET7;
 
 [MemoryDiagnoser]
 public class BenchmarkBmpModify {
@@ -19,14 +19,21 @@ public class BenchmarkBmpModify {
 	public void Cleanup() {
 		_parser.Dispose();
 	}
-	
+
 	[Benchmark]
 	public void Benchmark_BitmapParser_ModifyRgbUnsafe() {
-		_parser.ModifyRgbUnsafe(0, (ref int red, ref int green, ref int blue) => {
-			                           red   -= 25;
-			                           green += 10;
-			                           blue  += 20;
-		                           });
+			_parser.ModifyRgbUnsafe(0, (ref int pxlIndex, ref int red, ref int green, ref int blue) => {
+				                           // modify the images RGB values however you see fit
+				                           if (pxlIndex % 2 == 0) {
+					                           red   -= 25;
+					                           green = 10;
+					                           blue  += 20;
+				                           }
+				                           
+				                           red   -= 25;
+				                           green += 10;
+				                           blue  += 20;
+			                           });
 	}
 
 	BitmapParser _parser;

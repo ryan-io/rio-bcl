@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Abstraction for void async operation callbacks.
 	/// </summary>

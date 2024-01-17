@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace BCL.Serialization {
+namespace RIO.BCL.Serialization {
 	public class Serializer {
 		ILogging? Log { get; }
 

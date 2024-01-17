@@ -1,50 +1,27 @@
 ﻿using System.Diagnostics;
-using Test.Environment.core;
+using simple_plotting;
 
-var sw      = Stopwatch.StartNew();
-var semTest = new TwelvePointTwo_AsyncLocks();
+const int size   = 10000;
+var       paths  = new[] { @"C:\Users\stane\Pictures\FWG_3440x1440.jpg" };
+using var       parser = new BitmapParser(ref paths);
 
-try {
-//	await semTest.TestAsync(1);
-	
-	var task = TestAsync(semTest);
-	await task; // this does NOT deadlock
+var sw = Stopwatch.StartNew();
 
-	//TestSynchronous(semTest); // this will deadlock
-	
-	//TestSynchronousWithTaskCreation(semTest); // this will deadlock
-	
-	Console.WriteLine($"Integer: {semTest.Integer}");
-	Console.WriteLine("All tasks completed");
-}
-catch (Exception e) {
-	Console.WriteLine(e);
+for (var i = 0; i < size; i++) {
+	parser.ModifyRgbUnsafe(0, (ref int pxlIndex, ref int red, ref int green, ref int blue) => {
+		                          if (pxlIndex % 2 == 0) {
+			                          red   -= 25;
+			                          green =  10;
+			                          blue  += 20;
+		                          }
+				                           
+		                          red   -= 25;
+		                          green += 10;
+		                          blue  += 20;
+	                          });
 }
 
 sw.Stop();
-Console.WriteLine($"Elapsed: {sw.Elapsed}");
+Console.WriteLine("Elapsed time: " + sw.ElapsedMilliseconds/1000 + " ms");
 
 return 0;
-
-async Task TestAsync(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
-	var tasks = new List<Task>();
-	for (var i = 0; i < 100; i++) {
-		var thread = i;
-		tasks.Add(Task.Run(async () => await semaphoreSlimTry.TestAsync(thread)));
-	}
-	await Task.WhenAll(tasks);
-}
-
-void TestSynchronous(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
-	for (var i = 0; i < 10; i++) {
-		var thread = i;
-		semaphoreSlimTry.Test(thread);
-	}
-}
-
-void TestSynchronousWithTaskCreation(TwelvePointTwo_AsyncLocks semaphoreSlimTry) {
-	for (var i = 0; i < 10; i++) {
-		var thread = i;
-		Task.Run(async () => await semaphoreSlimTry.TestAsync(thread));
-	}
-}

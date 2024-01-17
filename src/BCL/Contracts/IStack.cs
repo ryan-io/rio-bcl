@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Abstraction for a stack.
 	/// </summary>

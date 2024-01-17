@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///   A singleton class. Provides a single static instance of class type T.
 	///  <para>Usage: public class MyClass : Singleton&lt;MyClass&gt; { }</para>

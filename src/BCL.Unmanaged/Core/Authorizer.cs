@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL.Unmanaged {
+namespace RIO.BCL.Unmanaged {
 	public class Authorizer {
 		public Authorizer(bool initiallyAuthorized) => ShouldProcess = initiallyAuthorized;
 

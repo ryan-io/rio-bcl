@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BCL {
+namespace RIO.BCL {
 	public class WeightedRandom<T> : IEnumerable {
 		readonly           Random      _random;
 		protected readonly List<Entry> Entries;

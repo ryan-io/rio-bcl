@@ -1,6 +1,6 @@
 ﻿// BCL.Serialization
 
-namespace BCL.Serialization {
+namespace RIO.BCL.Serialization {
 	public abstract class SaveLocation {
 		public string Directory { get; }
 

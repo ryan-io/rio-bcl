@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace BCL {
+namespace RIO.BCL {
 	public static class SystemExtensions {
 		public static bool NextBool(this Random r, int truePercentage = 50) => r.NextDouble() < truePercentage / 100.0;
 

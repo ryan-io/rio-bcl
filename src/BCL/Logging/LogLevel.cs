@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	[Serializable]
 	public enum LogLevel {
 		Normal,

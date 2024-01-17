@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BCL {
+namespace RIO.BCL {
 	public class StopWatchWrapper {
 		public float TimeElapsed => Stopwatch.ElapsedMilliseconds / 1000f;
 

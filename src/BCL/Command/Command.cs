@@ -1,4 +1,4 @@
-﻿namespace BCL {
+﻿namespace RIO.BCL {
 	/// <summary>
 	/// Simple implementation of the command pattern. Generic version.
 	/// </summary>

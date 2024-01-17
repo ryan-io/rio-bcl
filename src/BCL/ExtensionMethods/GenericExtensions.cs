@@ -1,12 +1,10 @@
-// OmniBCL
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace BCL {
+namespace RIO.BCL {
 	public static class GenericExtensions {
-        /// <summary>
+		/// <summary>
 		///  Ensures a provided integer is within the range of a collection and greater than or equal to zero.
 		/// </summary>
 		/// <param name="integer">Integer to check</param>

@@ -1,6 +1,6 @@
 ﻿// OmniBCL
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Internal logging abstraction. This is not the same as the logging abstraction in the Microsoft.Extensions.Logging namespace.
 	/// </summary>

@@ -1,4 +1,4 @@
-using BCL.Serialization;
+using RIO.BCL.Serialization;
 using Pathfinding.Serialization;
 using UnityBCL;
 using UnityBCL.Serialization;

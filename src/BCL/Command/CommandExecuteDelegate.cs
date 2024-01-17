@@ -1,6 +1,6 @@
 using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	/// Non generic command that executes an action.
 	/// </summary>

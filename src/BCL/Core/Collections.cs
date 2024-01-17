@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BCL {
+namespace RIO.BCL {
 	public class StringCollection : GenericCollection<string> {
 		public StringCollection(bool allowAutoCreation) : base(allowAutoCreation) {
 		}

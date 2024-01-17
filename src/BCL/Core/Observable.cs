@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BCL {
+namespace RIO.BCL {
 	public interface ISignal {
 		void Signal(bool constraintToSingle = false);
 	}

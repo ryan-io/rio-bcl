@@ -1,4 +1,4 @@
-﻿namespace BCL {
+﻿namespace RIO.BCL {
 	public class AsyncRef<T> {
 		public AsyncRef() {
 		}

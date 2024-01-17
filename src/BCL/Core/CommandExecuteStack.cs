@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BCL {
+namespace RIO.BCL {
 	public class CommandExecuteStack : LinkedList<CommandExecuteDelegate> {
 		readonly CommandExecuteDelegate _rootCommand;
 

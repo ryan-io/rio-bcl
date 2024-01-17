@@ -23,7 +23,7 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine.Internal;
 
-namespace JacksonDunstan.NativeCollections {
+namespace UnityBCL.Native {
 	/// <summary>
 	/// A two-dimensional array stored in native memory
 	/// </summary>

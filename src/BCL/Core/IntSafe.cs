@@ -1,4 +1,4 @@
-namespace BCL {
+namespace RIO.BCL {
 	public struct IntSafe {
 		/// <summary>
 		///  Thread safe value of type integer.

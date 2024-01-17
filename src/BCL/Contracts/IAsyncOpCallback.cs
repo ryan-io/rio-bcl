@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Abstracts the context of an async operation callback.
 	///  See <see cref="AsyncOpCallback{T}"/> for a concrete implementation.

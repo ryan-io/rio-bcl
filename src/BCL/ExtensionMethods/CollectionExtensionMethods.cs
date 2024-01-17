@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace BCL {
+namespace RIO.BCL {
 	public static class CollectionExtensionMethods {
 		const BindingFlags ConstantFlags = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 

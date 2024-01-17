@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	[Serializable]
 	public enum Toggle {
 		Yes,

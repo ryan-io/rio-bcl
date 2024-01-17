@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BCL;
+using RIO.BCL;
 
 namespace Procedural {
 	public class TileWeightDictionary : Dictionary<string, WeightedRandom<int>> {

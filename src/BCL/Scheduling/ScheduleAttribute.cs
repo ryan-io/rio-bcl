@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///     Use this attribute if you know a class will need to be schedule at runtime.
 	///     Beware: this attribute assumes you want to schedule the provided action immediately.

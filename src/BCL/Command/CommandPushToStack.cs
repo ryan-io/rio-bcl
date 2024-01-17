@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Command that pushes a callback to a stack.
 	/// </summary>

@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using riolog;
 
-namespace Test.Environment.core;
+namespace Test.Environment;
 
 public class TwelvePointTwo_AsyncLocks {
 	public int Integer { get; set; } = 0;

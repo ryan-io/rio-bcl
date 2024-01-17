@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Abstraction for scheduling actions. Used in Unity to schedule actions on the main thread.
 	/// </summary>

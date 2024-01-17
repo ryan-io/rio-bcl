@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BCL;
+using RIO.BCL;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -46,13 +46,13 @@ namespace UnityBCL {
 
 		public void Clear(Schedule schedule) {
 			switch (schedule) {
-				case BCL.Schedule.Normal:
+				case RIO.BCL.Schedule.Normal:
 					_updateActions.Clear();
 					break;
-				case BCL.Schedule.Late:
+				case RIO.BCL.Schedule.Late:
 					_lateUpdateActions.Clear();
 					break;
-				case BCL.Schedule.Fixed:
+				case RIO.BCL.Schedule.Fixed:
 					_fixedUpdateActions.Clear();
 					break;
 				default:
@@ -95,11 +95,11 @@ namespace UnityBCL {
 
 		List<Action> GetArray(Schedule schedule) {
 			switch (schedule) {
-				case BCL.Schedule.Normal:
+				case RIO.BCL.Schedule.Normal:
 					return _updateActions;
-				case BCL.Schedule.Late:
+				case RIO.BCL.Schedule.Late:
 					return _lateUpdateActions;
-				case BCL.Schedule.Fixed:
+				case RIO.BCL.Schedule.Fixed:
 					return _fixedUpdateActions;
 				default:
 					Logger?.Log(LogLevel.Warning, IncorrectSchedule);

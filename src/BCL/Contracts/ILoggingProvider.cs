@@ -1,6 +1,6 @@
 ﻿// BCL
 
-namespace BCL {
+namespace RIO.BCL {
 	/// <summary>
 	///  Logging provider abstraction. Used in Unity systems.
 	/// </summary>

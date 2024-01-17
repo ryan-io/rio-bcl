@@ -1,6 +1,6 @@
 ﻿// UnityBCL.Serialization
 
-namespace BCL.Serialization {
+namespace RIO.BCL.Serialization {
 	public static class Info {
 		public readonly struct Json {
 			public string Path          { get; }
